@@ -1,4 +1,0 @@
-package calculator
-
-func main() {
-}

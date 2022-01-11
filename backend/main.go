@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/Nexlson/mahjongApp/backend/pkg/calculator"
+	"github.com/Nexlson/mahjongApp/backend/calculator"
 )
 
 func main() {
