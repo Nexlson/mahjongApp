@@ -1,4 +1,4 @@
-package main
+package calculator
 
 type winningHands struct {
 	winningRules func()
