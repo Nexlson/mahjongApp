@@ -1,13 +1,15 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/Nexlson/mahjongApp/backend/calculator"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	msg := calculator.Hello()
-
-	fmt.Println(msg)
+	r := gin.Default()
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"mesage": "pong",
+		})
+	})
+	r.Run()
 }
