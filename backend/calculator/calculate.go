@@ -3,13 +3,23 @@ package calculator
 type result struct {
 	name string
 	score int
-	valid bool
 }
 
+// group tiles
 func groupTiles(tiles []int) [][]int{
+	// sort inputs
+	sort.Sort(sort.IntSlice(tiles))
+
+	// attempts 
 
 }
 
+// check pong
+
+// check chi
+
+
+// check if tiles are grouped
 func checkGroup(groups []int, count int) bool{
 	var prev int
 	var counts int 
@@ -29,6 +39,12 @@ func checkGroup(groups []int, count int) bool{
 	}
 }	
 
+// compare hand tiles with rules
+func checkScore(groups [][]int) result {
+
+}
+
+// calculate tiles 
 func Calculate(hand [][]int) result{
 	var output result
 	var totalScore int
