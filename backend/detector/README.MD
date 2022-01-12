@@ -1,5 +1,10 @@
 # A simple, lightweight mahjong detection model
 
-Dataset
+**Dataset**
+- [Github dataset](https://github.com/Camerash/mahjong-dataset)
 
-https://github.com/Camerash/mahjong-dataset
+**Labelling tools**
+- 
+
+**Model tracking tools**
+- Weight and Bias
