@@ -123,8 +123,20 @@ func contained(tiles []string, rule []string) bool {
 }
 
 // rules
-func 大四喜(tiles []string) (bool, string, int) {
-	valid := false
+type ruleFunction func (string, int, int)
+
+rulesMaps := map[int]interface{}{
+	1: 大四喜,
+	2: 大三元,
+
+}
+
+
+func checkRules() {
+
+}
+
+func 大四喜(tiles []string) (string, int, int) {
 	name := "大四喜"
 	score := 88
 	winningRules := []int{28, 29, 30,31}
@@ -133,7 +145,7 @@ func 大四喜(tiles []string) (bool, string, int) {
 	// check
 	valid = contained(tiles, winningRules)
 
-	return valid, name, score
+	return name, score
 }
 
 func 大三元(tiles []string) (bool, string, int) {
@@ -167,6 +179,309 @@ func 连七对() {
 func 十三幺() {
 	// only have 2 3 4 6 8 条
 }
+
+func 清幺九() {
+	// only have 2 3 4 6 8 条
+}
+
+func 小四喜() {
+	// only have 2 3 4 6 8 条
+}
+
+
+func 小三元() {
+	// only have 2 3 4 6 8 条
+}
+
+func 字一色() {
+	// only have 2 3 4 6 8 条
+}
+
+func 四暗刻() {
+	// only have 2 3 4 6 8 条
+}
+
+func 一色双龙会() {
+	// only have 2 3 4 6 8 条
+}
+
+
+func 一色四同顺() {
+	// only have 2 3 4 6 8 条
+}
+
+func 一色四节高() {
+	// only have 2 3 4 6 8 条
+}
+
+func 一色四步高() {
+	// only have 2 3 4 6 8 条
+}
+
+func 三杠() {
+	// only have 2 3 4 6 8 条
+}
+
+func 混幺九() {
+	// only have 2 3 4 6 8 条
+}
+
+func 七对() {
+	// only have 2 3 4 6 8 条
+}
+
+func 七星不靠() {
+	// only have 2 3 4 6 8 条
+}
+
+func 全双刻() {
+	// only have 2 3 4 6 8 条
+}
+
+func 清一色() {
+	// only have 2 3 4 6 8 条
+}
+
+func 一色三同顺() {
+	// only have 2 3 4 6 8 条
+}
+
+func 一色三节高() {
+	// only have 2 3 4 6 8 条
+}
+
+func 全大() {
+	// only have 2 3 4 6 8 条
+}
+
+func 全中() {
+	// only have 2 3 4 6 8 条
+}
+
+func 全小() {
+	// only have 2 3 4 6 8 条
+}
+
+func 清龙() {
+	// only have 2 3 4 6 8 条
+}
+
+func 三色双龙会() {
+	// only have 2 3 4 6 8 条
+}
+
+func 一色三步高() {
+	// only have 2 3 4 6 8 条
+}
+
+func 全带五() {
+	// only have 2 3 4 6 8 条
+}
+
+func 三同刻() {
+	// only have 2 3 4 6 8 条
+}
+
+func 三暗刻() {
+	// only have 2 3 4 6 8 条
+}
+
+func 全不靠() {
+	// only have 2 3 4 6 8 条
+}
+
+func 组合龙() {
+	// only have 2 3 4 6 8 条
+}
+
+func 大于五() {
+	// only have 2 3 4 6 8 条
+}
+
+
+func 小于五() {
+	// only have 2 3 4 6 8 条
+}
+
+func 三风刻() {
+	// only have 2 3 4 6 8 条
+}
+
+
+func 花龙() {
+	// only have 2 3 4 6 8 条
+}
+
+func 推不倒() {
+	// only have 2 3 4 6 8 条
+}
+
+func 三色三同顺() {
+	// only have 2 3 4 6 8 条
+}
+
+func 三色三节高() {
+	// only have 2 3 4 6 8 条
+}
+
+func 无番和() {
+	// only have 2 3 4 6 8 条
+}
+
+func 妙手回春() {
+	// only have 2 3 4 6 8 条
+}
+
+func 海底捞月() {
+	// only have 2 3 4 6 8 条
+}
+
+func 杠上开花() {
+	// only have 2 3 4 6 8 条
+}
+
+func 抢杠和() {
+	// only have 2 3 4 6 8 条
+}
+
+func 碰碰和() {
+	// only have 2 3 4 6 8 条
+}
+
+func 混一色() {
+	// only have 2 3 4 6 8 条
+}
+
+func 三色三步高() {
+	// only have 2 3 4 6 8 条
+}
+
+func 五门齐() {
+	// only have 2 3 4 6 8 条
+}
+func 全求人() {
+	// only have 2 3 4 6 8 条
+}
+
+func 双暗杠() {
+	// only have 2 3 4 6 8 条
+}
+
+func 双箭刻() {
+	// only have 2 3 4 6 8 条
+}
+
+func 全带幺() {
+	// only have 2 3 4 6 8 条
+}
+
+func 不求人() {
+	// only have 2 3 4 6 8 条
+}
+func 双明杠() {
+	// only have 2 3 4 6 8 条
+}
+
+func 和绝张() {
+	// only have 2 3 4 6 8 条
+}
+
+func 箭刻() {
+	// only have 2 3 4 6 8 条
+}
+
+func 圈风刻() {
+	// only have 2 3 4 6 8 条
+}
+
+func 门风刻() {
+	// only have 2 3 4 6 8 条
+}
+
+func 门前清() {
+	// only have 2 3 4 6 8 条
+}
+
+func 平和() {
+	// only have 2 3 4 6 8 条
+}
+
+func 四归一() {
+	// only have 2 3 4 6 8 条
+}
+
+func 双同刻() {
+	// only have 2 3 4 6 8 条
+}
+
+func 双暗刻() {
+	// only have 2 3 4 6 8 条
+}
+
+func 暗杠() {
+	// only have 2 3 4 6 8 条
+}
+
+func 断幺() {
+	// only have 2 3 4 6 8 条
+}
+
+func 一般高() {
+	// only have 2 3 4 6 8 条
+}
+
+func 喜相逢() {
+	// only have 2 3 4 6 8 条
+}
+
+func 连六() {
+	// only have 2 3 4 6 8 条
+}
+
+func 老少副() {
+	// only have 2 3 4 6 8 条
+}
+
+func 幺九刻() {
+	// only have 2 3 4 6 8 条
+}
+
+func 明杠() {
+	// only have 2 3 4 6 8 条
+}
+
+func 缺一门() {
+	// only have 2 3 4 6 8 条
+}
+
+func 无字() {
+	// only have 2 3 4 6 8 条
+}
+
+func 边张() {
+	// only have 2 3 4 6 8 条
+}
+
+func 坎张() {
+	// only have 2 3 4 6 8 条
+}
+
+func 单钓() {
+	// only have 2 3 4 6 8 条
+}
+
+func 自摸() {
+	// only have 2 3 4 6 8 条
+}
+
+func 花牌() {
+	// only have 2 3 4 6 8 条
+}
+
+
+
+
+
 
 
 

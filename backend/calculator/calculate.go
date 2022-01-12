@@ -1,12 +1,15 @@
 package calculator
 
+// int: {int,int}
+type tileGroup map[int][]int
+
 type result struct {
 	name string
 	score int
 }
 
 // group tiles
-func groupTiles(tiles []int) [][]int{
+func groupTiles(tiles []int) []tileGroup{
 	// sort inputs
 	sort.Sort(sort.IntSlice(tiles))
 
@@ -45,7 +48,7 @@ func checkScore(groups [][]int) result {
 }
 
 // calculate tiles 
-func Calculate(hand [][]int) result{
+func Calculate([]tileGroup) result{
 	var output result
 	var totalScore int
 	
