@@ -1,23 +1,26 @@
 package calculator
 
-type StructuredTiles struct {
+type Hands struct {
 	grouped []TileGroup
 	ungrouped []int
+	won bool
+	score int
 }
 
 type TileGroup struct {
 	tiles []int
-	open int
-	pong int
-	kong int 
-	chi int
-	pair int
+	open bool
+	pong bool
+	kong bool 
+	chi bool
+	pair bool
 	pattern int // 1 - 筒, 2 - 条, 3 - 万 4 - 字 5 - Mixed
 }
 
 type Output struct {
 	names []string
 	score int
+	exceptions []int
 }
 
 var PatternLib = map[int][]int {
@@ -158,6 +161,4 @@ var RulesMaps = map[int]interface{}{
 	77: 边张,
 	78: 坎张,
 	79: 单钓,
-	80: 自摸,
-	81: 花牌,
 }

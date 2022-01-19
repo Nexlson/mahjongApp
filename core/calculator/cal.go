@@ -4,101 +4,59 @@ import (
 	"fmt"
 )
 
-// check if group contained chi 
-func checkChi(group []int) bool{
-	prev := 0
-	for _, tile := range group {
-		if prev == 0 {
-			prev = tile
-		}else{
-			if tile - prev != 1 {
-				return false
-			}else{
-				prev = tile
-			}
+func checkWon(hand Hands) Hands {
+	var count int 
+	for _, group := range hands.grouped {
+		if group.pong == 1 or group.chi == 1{
+			count += 1
 		}
 	}
-	return true
-}
-
-// check if group contained pong
-func checkPong(group []int) bool{
-	sum := 0
-	for _, tile := range group {
-		sum += tile
-	}
-	if sum / len(group) == group[0] {
-		return true
+	if count == 4 {
+		hands.won = true
+		return hands
 	}else {
-		return false
+		hands.won = false
+		return hands
 	}
 }
 
-// get min max of slices
-func minMax(array []int) []int {
-    var max int = array[0]
-    var min int = array[0]
-    for _, value := range array {
-        if max < value {
-            max = value
-        }
-        if min > value {
-            min = value
-        }
-    }
-    return []int {min, max}
-}
+// func checkSpecialPattern(hands Hands, outputs Output) Output{
+// 	specialFuns := []func(Hands, Output)Output{九莲宝灯, 连七对, 十三幺, 七对, 七星不靠, 全不靠, 组合龙}
+// 	for _, v := range specialFuns {
+// 		result := v(hands, outputs)
+// 		if result.score != 0 {
+// 			break
+// 		}
+// 	}
+// 	result.exceptions := append(result.exceptions, int[]{4, 6, 7, 19, 20, 34, 35}...)
+// 	return result
+// }
 
-// check if hand contained in target
-func checkContained(target []int, hand []int) bool {
-	count := 0 
-	for _, i := range hand {
-		for _, j := range target {
-			if i == j {
-				count++
-				break
-			}
+// func checkFixedPattern() {
+	
+// }
+
+// func checkRepeatedPattern() {
+	 
+// }
+
+func calculateScore(hands Hands) Output{
+	finalResult := Output{}
+
+	// add initial score
+	finalResult.score += hands.score
+
+	// check won
+	hands := checkWon(hands)
+
+	// loop all rules 
+	for k, v := range RulesMaps{
+		if !containedInt(finalResult.exceptions, k){
+			finalResult := v.((func(Hands, Output) Output) (hands, finalResult))
 		}
 	}
-	if count == len(hand) {
-		return true
-	}else{
-		return false
-	}
-}
 
-// check all tiles is same pattern
-func checkSamePattern (tiles []int) (bool, int) {
-	minMax := minMax(tiles)
-	for k, v := range PatternLib {
-		if checkContained(v, minMax){
-			return true, k
-		}
-	}
-	return false, 0
-}
-
-func checkWon(grouped []TileGroup) bool {
-	for _, group := range grouped {
-		if ! (checkChi(group.tiles) and checkPong(group.tiles)) {
-			return false
-		}
-	}
-	return true
-}
-
-func calculateScore(hand StructuredTiles) Output{
-	result := Output {
-		names: []int{}, 
-		score: 0,
-	}
-	// check if won 
-	if checkNormalWon(hand.grouped) {
-
-	}else{
-		// check special pattern
-
-	}
+	return finalResult
 }
 
 func main() {

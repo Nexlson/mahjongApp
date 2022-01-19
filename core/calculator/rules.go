@@ -1,61 +1,58 @@
 // Rules for winning 
 
 // 88 points
-func 大四喜(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 大四喜(hands Hands, r Output) Output {
 	validTiles := int[]{28, 29, 30, 31}
 	
 	// check rules
 	handTiles := extractData(hands.grouped, "pong") // extract pong labelled tiles
 
 	// compare both list 
-	if checkContained(validTiles, handTiles) { // compare if all pong labelled are same as rule
+	if checkContained(validTiles, handTiles) && hands.won { // compare if all pong labelled are same as rule
 		r.names = append(r.names,"大四喜")
 		r.score += 88
-		exceptions = append(exceptions,[]int{38, 48, 60, 61, 73}...)
-		return r, exceptions
+		r.exceptions = append(exceptions,[]int{38, 48, 60, 61, 73}...)
+		return r
 	}
-
-	// return nothing if not matched
-	return r, exceptions
+	return r
 }
 
-func 大三元(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 大三元(hands Hands, r Output) Output {
 	validTiles := []int{32,33,34}
 
 	// check rules
 	handTiles := extractData(hands.grouped, "pong")
 
 	// compare both list 
-	if checkContained(validTiles, handTiles) {
+	if checkContained(validTiles, handTiles) && hands.won {
 		r.names = append(r.names,"大三元")
 		r.score += 88
-		exceptions = append(exceptions,[]int{54, 59, 73}...)
-		return r, exceptions
+		r.exceptions = append(exceptions,[]int{54, 59, 73}...)
+		return r
 	}
 
-	return r, exceptions
+	return r
 }
 
-func 绿一色(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
-	// contained tiao 2 3 4 6  8 fa 
+func 绿一色(hands Hands, r Output) Output {
 	validTiles := []int {11,12,13,15,17,33}
 	handTiles := removeDuplicateInt(hands.ungrouped)
 
 	// if everything in hand is contained in valid tiles
-	if checkContained(validTiles, handTiles) {
+	if checkContained(validTiles, handTiles) && hands.won {
 		r.names = append(r.names,"绿一色")
 		r.score += 88
 		if containedInt(handTiles, 33) {
-			exceptions = append(exceptions,[]int{49}...)
+			r.exceptions = append(exceptions,[]int{49}...)
 		}else {
-			exceptions = append(exceptions,[]int{49, 22}...)
+			r.exceptions = append(exceptions,[]int{49, 22}...)
 		}
-		return r, exceptions
+		return r
 	}
-	return r, exceptions
+	return r
 }
 
-func 九莲宝灯(hands StructuredTiles, r Output, exceptions []int) (Output, []int){
+func 九莲宝灯(hands Hands, r Output) Output {
 	validPongs := []int{1, 9, 10, 18, 19, 27}
 	handPongs := extractData(hands.grouped, "pong")
 
@@ -70,15 +67,15 @@ func 九莲宝灯(hands StructuredTiles, r Output, exceptions []int) (Output, []
 		// only have 1112345678999
 		r.names = append(r.names,"九莲宝灯")
 		r.score += 88
-		exceptions = append(exceptions,[]int{22, 56, 62, 76, 73}...)
+		r.exceptions = append(exceptions,[]int{22, 56, 62, 76, 73}...)
 		return r, exceptions
 	}
 	return r, exceptions
 }
 
-func 四杠(hands StructuredTiles, r Output, exceptions []int) (Output, []int){
+func 四杠(hands Hands, r Output) Output {
 	kongCount := extractData(hands.grouped, "kong")
-	if len(kongCount) == 4 {
+	if len(kongCount) == 4 && hands.won {
 		r.names = append(r.names,"四杠")
 		r.score += 88
 		exceptions = append(exceptions,[]int{48, 79}...)
@@ -87,7 +84,7 @@ func 四杠(hands StructuredTiles, r Output, exceptions []int) (Output, []int){
 	return r, exceptions
 }
 
-func 连七对(hands StructuredTiles, r Output, exceptions []int) (Output, []int){
+func 连七对(hands Hands, r Output) Output {
 	samePattern, _ := checkSamePattern(hands.ungrouped)
 	if checkPairs(hands.ungrouped) and samePattern {
 		r.names = append(r.names,"连七对")
@@ -98,7 +95,7 @@ func 连七对(hands StructuredTiles, r Output, exceptions []int) (Output, []int
 	return r, exceptions
 }
 
-func 十三幺(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 十三幺(hands Hands, r Output) Output {
 	validTiles := []int {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34}
 
 	if checkContained(validTiles, hands.ungrouped) {
@@ -111,10 +108,10 @@ func 十三幺(hands StructuredTiles, r Output, exceptions []int) (Output, []int
 }
 
 // 64 points
-func 清幺九(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 清幺九(hands Hands, r Output) Output {
 	validTiles := []int {1, 9, 10, 18, 19, 27}
 
-	if checkContained(validTiles, removeDuplicateInt(hands.ungrouped)){
+	if checkContained(validTiles, removeDuplicateInt(hands.ungrouped)) && hands.won {
 		r.names = append(r.names,"清幺九")
 		r.score += 64
 		exceptions = append(exceptions,[]int{48, 55, 65, 73, 76}...)
@@ -123,12 +120,12 @@ func 清幺九(hands StructuredTiles, r Output, exceptions []int) (Output, []int
 	return r, exceptions
 }
 
-func 小四喜(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 小四喜(hands Hands, r Output) Output {
 	validTiles := []int {28, 29, 30, 31}
 	handTiles := extractData(hands.grouped, "pong") // extract pong labelled tiles
 	handTiles := append(handTiles, extractData(hands.grouped, "pair")...) // extract pair
 
-	if checkContained(validTiles, handTiles){
+	if checkContained(validTiles, handTiles) && hands.won {
 		r.names = append(r.names,"小四喜")
 		r.score += 64
 		exceptions = append(exceptions,[]int{38, 73}...)
@@ -137,12 +134,12 @@ func 小四喜(hands StructuredTiles, r Output, exceptions []int) (Output, []int
 	return r, exceptions
 }
 
-func 小三元(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 小三元(hands Hands, r Output) Output {
 	validTiles := []int {32, 33, 34}
 	handTiles := extractData(hands.grouped, "pong") // extract pong labelled tiles
 	handTiles := append(handTiles, extractData(hands.grouped, "pair")...) // extract pair
 
-	if checkContained(validTiles, handTiles){
+	if checkContained(validTiles, handTiles) && hands.won {
 		r.names = append(r.names,"小三元")
 		r.score += 64
 		exceptions = append(exceptions,[]int{54, 59, 73}...)
@@ -151,9 +148,9 @@ func 小三元(hands StructuredTiles, r Output, exceptions []int) (Output, []int
 	return r, exceptions
 }
 
-func 字一色(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 字一色(hands Hands, r Output) Output {
 	samePattern, pattern := checkSamePattern(hands.ungrouped)
-	if samePattern && pattern == 4 {
+	if samePattern && pattern == 4 && hands.won {
 		r.names = append(r.names,"字一色")
 		r.score += 64
 		exceptions = append(exceptions,[]int{48, 55, 73}...)
@@ -162,10 +159,10 @@ func 字一色(hands StructuredTiles, r Output, exceptions []int) (Output, []int
 	return r, exceptions
 }
 
-func 四暗刻(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 四暗刻(hands Hands, r Output) Output {
 	closedTiles := extractData(hands.grouped, "close")
 
-	if len(closedTiles) == 4 {
+	if len(closedTiles) == 4 && hands.won {
 		r.names = append(r.names,"四暗刻")
 		r.score += 64
 		exceptions = append(exceptions,[]int{48, 56, 62}...)
@@ -174,12 +171,12 @@ func 四暗刻(hands StructuredTiles, r Output, exceptions []int) (Output, []int
 	return r, exceptions
 }
 
-func 一色双龙会(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 一色双龙会(hands Hands, r Output) Output {
 	samePattern, pattern := checkSamePattern(hands.ungrouped)
 	validTiles := PatternLib[pattern]
 	validTiles := removeIntFromSlice(validTiles, []int{validTiles[3], validTiles[5]})
 	
-	if samePattern {
+	if samePattern && hands.won {
 		if checkContained(validTiles, hands.ungrouped){
 			r.names = append(r.names,"一色双龙会")
 			r.score += 64
@@ -207,7 +204,7 @@ func countStatus(grouped []TileGroup, status string) int{
 }
 
 // same pattern for 4 group 
-// func 一色四同顺(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+// func 一色四同顺(hands Hands, r Output) Output {
 // 	name := "一色四同顺"
 // 	score := 48
 // 	exceptions := []int{23, 24, 64, 69}
@@ -228,7 +225,7 @@ func countStatus(grouped []TileGroup, status string) int{
 // 	return r, exceptions
 // }
 
-// func 一色四节高(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+// func 一色四节高(hands Hands, r Output) Output {
 // 	// 4 pong, same pattern 
 // 	samePattern, pattern := checkSamePattern(hands.ungrouped)
 // 	pongCount := countStatus(hands.grouped, "pong")
@@ -249,7 +246,7 @@ func countStatus(grouped []TileGroup, status string) int{
 // 	exceptions := []int{48, 55, 73}
 // }
 
-func 三杠(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 三杠(hands Hands, r Output) Output {
 	kongCount := extractData(hands.grouped, "kong")
 	if len(kongCount) == 3 {
 		r.names = append(r.names,"三杠")
@@ -259,7 +256,7 @@ func 三杠(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
 	return r, exceptions
 }
 
-func 混幺九(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 混幺九(hands Hands, r Output) Output {
 	validTiles := []int {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34}
 
 	// 4 pong all related to 
@@ -275,7 +272,7 @@ func 混幺九(hands StructuredTiles, r Output, exceptions []int) (Output, []int
 	return r, exceptions
 }
 
-func 七对(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 七对(hands Hands, r Output) Output {
 	if checkPairs(hands.ungrouped) {
 		r.names = append(r.names,"七对")
 		r.score += 24
@@ -292,7 +289,7 @@ func gap2Tiles(group []int) {
 	}
 }
 
-// func 七星不靠(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+// func 七星不靠(hands Hands, r Output) Output {
 // 	name := "七星不靠"
 // 	score := 24
 // 	exceptions := []int{34, 51, 56, 62}
@@ -302,8 +299,8 @@ func gap2Tiles(group []int) {
 // 	// has validWord 
 // }
 
-func 全双刻(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
-	validTiles = []int{}
+func 全双刻(hands Hands, r Output) Output {
+	validTiles = []int{} // TODO: add valid tiles
 	handTiles = removeDuplicateInt(hands.ungrouped)
 	// remove duplicate + compare to validTiles + len is 4 
 	if checkContained(validTiles, handTiles) && len(handTiles) == 4 {
@@ -315,7 +312,7 @@ func 全双刻(hands StructuredTiles, r Output, exceptions []int) (Output, []int
 	return r, exceptions
 }
 
-func 清一色(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 清一色(hands Hands, r Output) Output {
 	samePattern, pattern := checkSamePattern(hands.ungrouped)
 	if samePattern {
 		r.names = append(r.names,"清一色")
@@ -338,7 +335,7 @@ func 清一色(hands StructuredTiles, r Output, exceptions []int) (Output, []int
 // 	exceptions := []int{23}
 // }
 
-func 全大(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 全大(hands Hands, r Output) Output {
 	validTiles := []int{7,8,9,16,17,18,25,26,27}
 	handTiles := removeDuplicateInt(hands.ungrouped)
 
@@ -351,7 +348,7 @@ func 全大(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
 	return r, exceptions
 }
 
-func 全中(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 全中(hands Hands, r Output) Output {
 	validTiles := []int{4, 5, 6, 13, 14, 15, 22, 23, 24}
 	handTiles := removeDuplicateInt(hands.ungrouped)
 
@@ -364,7 +361,7 @@ func 全中(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
 	return r, exceptions
 }
 
-func 全小(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 全小(hands Hands, r Output) Output {
 	validTiles := []int{1, 2, 3, 10, 11, 12, 19, 20, 21}
 	handTiles := removeDuplicateInt(hands.ungrouped)
 
@@ -377,7 +374,7 @@ func 全小(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
 	return r, exceptions
 }
 
-func 清龙(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 清龙(hands Hands, r Output) Output {
 	validTiles := [][]int {{1,2,3,4,5,6,7,8,9}, {10,11,12,13,14,15,16,17,18}, {19,20,21,22,23,24,25,26,27}}
 	handTiles := removeDuplicateInt(hands.ungrouped)
 	for _, g := range validTiles {
@@ -402,7 +399,7 @@ func 清龙(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
 // 	score := 16
 // }
 
-func 全带五(hands StructuredTiles, r Output, exceptions []int) (Output, []int) {
+func 全带五(hands Hands, r Output) Output {
 	validTiles := []int {5, 14, 23}
 
 	for _, grouped := range hands.grouped {
@@ -442,7 +439,8 @@ func gapBetweenTile(group []int, gap int) bool{
 // 	name := "三暗刻"
 // 	score := 16
 
-// closed count = 3 
+// 	// 3 closed pong
+
 // }
 
 // func 全不靠() {
@@ -503,29 +501,6 @@ func gapBetweenTile(group []int, gap int) bool{
 // 	score := 8
 // }
 
-// func 妙手回春() {
-// 	name := "妙手回春"
-// 	score := 8
-// 	exceptions := []int{80}
-// }
-
-// func 海底捞月() {
-// 	name := "海底捞月"
-// 	score := 8
-// }
-
-// func 杠上开花() {
-// 	name := "杠上开花"
-// 	score := 8
-// 	exceptions := []int{80}
-// }
-
-// func 抢杠和() {
-// 	name := "杠上开花"
-// 	score := 8
-// 	exceptions := []int{58}
-// }
-
 // func 碰碰和() {
 // 	name := "杠上开花"
 // 	score := 6
@@ -574,11 +549,6 @@ func gapBetweenTile(group []int, gap int) bool{
 // }
 // func 双明杠() {
 // 	name := "双明杠"
-// 	score := 4
-// }
-
-// func 和绝张() {
-// 	name := "和绝张"
 // 	score := 4
 // }
 
@@ -689,15 +659,5 @@ func gapBetweenTile(group []int, gap int) bool{
 
 // func 单钓() {
 // 	name := "单钓"
-// 	score := 1
-// }
-
-// func 自摸() {
-// 	name := "自摸"
-// 	score := 1
-// }
-
-// func 花牌() {
-// 	name := "花牌"
 // 	score := 1
 // }
