@@ -81,6 +81,7 @@ var TilesMaps = map[int]string{
 	42: "菊",
 }
 
+// TODO: update rules mapping
 // map ruleFunc to id
 var RulesMaps = map[int]interface{}{
 	1: 大四喜,
