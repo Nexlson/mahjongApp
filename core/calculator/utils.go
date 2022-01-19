@@ -1,5 +1,7 @@
 package calculator
 
+import "sort"
+
 // get min max of slices
 func minMax(array []int) []int {
     var max int = array[0]
@@ -81,7 +83,7 @@ func checkPairs(hands []int) bool {
 func removeIntFromSlice(slice []int, hand []int) []int {
 	output := []int{}
 	for _, h := range hand {
-		for , s := range slice {
+		for _, s := range slice {
 			if h != s {
 				output = append(output,s)
 				break
@@ -104,23 +106,23 @@ func removeDuplicateInt(intSlice []int) []int {
 }
 
 func extractData(hands []TileGroup, mode string) []int{
-	handTiles := int[]{}
+	handTiles := []int{}
 	for _, g := range hands {
 		if mode == "pong"{
-			if g.pong == 1 {
-				handTiles = append(handTiles, g.tiles[0]...)
+			if g.pong {
+				handTiles = append(handTiles, []int{g.tiles[0]}...)
 			}
 		}else if mode == "kong"{
-			if g.kong == 1 {
-				handTiles = append(handTiles, g.tiles[0]...)
+			if g.kong {
+				handTiles = append(handTiles, []int{g.tiles[0]}...)
 			}
 		}else if mode == "pair"{
-			if g.pair == 1 {
-				handTiles = append(handTiles, g.tiles[0]...)
+			if g.pair {
+				handTiles = append(handTiles, []int{g.tiles[0]}...)
 			}
 		}else if mode == "close"{
-			if g.open == 0 {
-				handTiles = append(handTiles, g.tiles[0]...)
+			if g.open {
+				handTiles = append(handTiles, []int{g.tiles[0]}...)
 			}
 		}
 	}
@@ -138,7 +140,7 @@ func ContainedInt(slice []int, tile int) bool {
 }
 
 func GroupOfWinningTile(posWinningTile int, validPositions []int)(bool, int){
-	for groupPos, pos := range validPositions {
+	for _, pos := range validPositions {
 		if pos == posWinningTile {
 			return true, pos
 		}
@@ -147,7 +149,7 @@ func GroupOfWinningTile(posWinningTile int, validPositions []int)(bool, int){
 }
 
 func ExtractPatterns(grouped []TileGroup) []int{
-	var extracted []int{}
+	var extracted []int
 	for _, group := range grouped {
 		extracted = append(extracted, group.pattern)
 	}
@@ -155,10 +157,10 @@ func ExtractPatterns(grouped []TileGroup) []int{
 }
 
 func ExtractChi(grouped []TileGroup) [][]int {
-	var extracted [][]int{}
+	var extracted [][]int
 	for _, group := range grouped {
 		if group.chi {
-			extracted = append(extracted, group)
+			extracted = append(extracted, group.tiles)
 		}
 	}
 	return extracted
@@ -170,7 +172,7 @@ func CompareChi(chis [][]int, gap int) bool {
 		if len(prev) == 0 {
 			prev = chi
 		}else{
-			if chi[0] - prev[2] = gap {
+			if (chi[0] - prev[2] == gap) {
 				return true
 			}
 		}
@@ -180,34 +182,38 @@ func CompareChi(chis [][]int, gap int) bool {
 
 func checkWon(hand Hands) Hands {
 	var count int 
-	for _, group := range hands.grouped {
-		if group.pong == 1 or group.chi == 1{
+	for _, group := range hand.grouped {
+		if group.pong || group.chi {
 			count += 1
 		}
 	}
 	if count == 4 {
-		hands.won = true
-		return hands
+		hand.won = true
+		return hand
 	}else {
-		hands.won = false
-		return hands
+		hand.won = false
+		return hand
 	}
 }
 
-func CalculateScore(hands Hands) Output{
-	finalResult := Output{}
+// func CalculateScore(hands Hands) Output{
+// 	finalResult := Output{}
 
-	// add initial score
-	finalResult.score += hands.score
+// 	// add initial score
+// 	finalResult.score += hands.score
 
-	// check won
-	hands := checkWon(hands)
+// 	// check won
+// 	handsTile = checkWon(hands)
 
-	// loop all rules 
-	for k, v := range RulesMaps{
-		if !containedInt(finalResult.exceptions, k){
-			finalResult := v.((func(Hands, Output) Output) (hands, finalResult))
-		}
-	}
-	return finalResult
+// 	// loop all rules 
+// 	for k, v := range RulesMaps{
+// 		if !containedInt(finalResult.exceptions, k){
+// 			finalResult := v.((func(Hands, Output) Output (hands, finalResult))
+// 		}
+// 	}
+// 	return finalResult
+// }
+
+func Hello() string {
+	return "Hello World"
 }
