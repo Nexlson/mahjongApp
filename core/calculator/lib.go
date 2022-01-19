@@ -5,6 +5,7 @@ type Hands struct {
 	ungrouped []int
 	won bool
 	score int
+	winnngTile int // position of winningTile
 }
 
 type TileGroup struct {

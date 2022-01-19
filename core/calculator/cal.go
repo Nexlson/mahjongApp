@@ -1,4 +1,4 @@
-package main
+package calculator
 
 import (
 	"fmt"
@@ -20,26 +20,6 @@ func checkWon(hand Hands) Hands {
 	}
 }
 
-// func checkSpecialPattern(hands Hands, outputs Output) Output{
-// 	specialFuns := []func(Hands, Output)Output{九莲宝灯, 连七对, 十三幺, 七对, 七星不靠, 全不靠, 组合龙}
-// 	for _, v := range specialFuns {
-// 		result := v(hands, outputs)
-// 		if result.score != 0 {
-// 			break
-// 		}
-// 	}
-// 	result.exceptions := append(result.exceptions, int[]{4, 6, 7, 19, 20, 34, 35}...)
-// 	return result
-// }
-
-// func checkFixedPattern() {
-	
-// }
-
-// func checkRepeatedPattern() {
-	 
-// }
-
 func calculateScore(hands Hands) Output{
 	finalResult := Output{}
 
@@ -57,8 +37,4 @@ func calculateScore(hands Hands) Output{
 	}
 
 	return finalResult
-}
-
-func main() {
-	fmt.Println(checkSamePattern([]int{10, 11}))
 }

@@ -608,56 +608,129 @@ func gapBetweenTile(group []int, gap int) bool{
 // }
 
 // func 一般高() {
+// 	// same pattern same value
 // 	name := "一般高"
 // 	score := 1
 // }
 
 // func 喜相逢() {
+// 	// same consecutive but different pattern
 // 	name := "喜相逢"
 // 	score := 1
+// 	handChis := ExtractChi(hands.grouped)
 // }
 
-// func 连六() {
-// 	name := "连六"
-// 	score := 1
-// }
+// TODO: Check again
+func 连六(hands Hands, r Output) Output {
+	handChis := ExtractChi(hands.grouped)
+	if CompareChi(handChis, 1) {
+		r.names = append(r.names,"连六")
+		r.score += 1
+		return r
+	}
+	return r
+}
 
-// func 老少副() {
-// 	name := "老少副"
-// 	score := 1
-// }
+func 老少副(hands Hands, r Output) Output {
+	// same pattern of 1 2 3, 7 8 9
+	validTiles := [][]int{{1,2,3,7,8,9}, {10,11,12,16,17,18}, {19,20,21,25,26,27}}
+	hand := removeDuplicateInt(hand.ungrouped)
+	for _, valid := range validTiles {
+		if !checkContained(valid, hand) {
+			r.names = append(r.names,"老少副")
+			r.score += 1
+			return r
+		}
+	}
+	return r
+}
 
-// func 幺九刻() {
-// 	name := "幺九刻"
-// 	score := 1
-// }
+func 幺九刻(hands Hands, r Output) Output {
+	// pong of 19 and zhi
+	validTiles := []int {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34}
+	handPongTiles := extractData(hands.grouped, "pong")
+	if !checkContained(validTiles, handPongTiles) {
+		r.names = append(r.names,"幺九刻")
+		r.score += 1
+		return r
+	}
+	return r
+}
 
-// func 明杠() {
-// 	name := "明杠"
-// 	score := 1
-// }
+func 明杠(hands Hands, r Output) Output {
+	// kong and open is 1
+	count := 0 
+	for _, group := range hands.grouped {
+		if group.open && group.kong {
+			count += 1
+		}
+	}
+	if count == 1 {
+		r.names = append(r.names,"明杠")
+		r.score += 1
+		return r
+	}
+	return r
+}
 
-// func 缺一门() {
-// 	name := "缺一门"
-// 	score := 1
-// }
+func 缺一门(hands Hands, r Output) Output {
+	// doesnt have one of the pattern
+	validPattern := []int{1,2,3,4}
+	handPattern := ExtractPatterns(hands.grouped)
+	if !checkContained(validPattern, handPattern) {
+		r.names = append(r.names,"缺一门")
+		r.score += 1
+		return r
+	}
+	return r
+}
 
-// func 无字() {
-// 	name := "无字"
-// 	score := 1
-// }
+func 无字(hands Hands, r Output) Output {
+	// doesnt contain 字 pattern
+	handPattern := ExtractPatterns(hands.grouped)
+	if !ContainedInt(handPattern, 4){
+		r.names = append(r.names,"无字")
+		r.score += 1
+		return r
+	}
+	return r
+}
 
-// func 边张() {
-// 	name := "边张"
-// 	score := 1
-// }
+func 边张(hands Hands, r Output) Output {
+	// winning tile is third of grouped 3 tile 
+	validPositions := []int{2, 5, 8, 11}
+	validity, groupPosition := GroupOfWinningTile(hands.winnngTile, validPositions)
+	groupChi := hands.grouped[groupPosition].chi
+	// group must be chi
+	if validity && groupChi{
+		r.names = append(r.names,"边张")
+		r.score += 1
+		return r
+	}
+	return r
+}
 
-// func 坎张() {
-// 	name := "坎张"
-// 	score := 1
-// }
+func 坎张(hands Hands, r Output) Output {
+	// winning tile is middle of grouped 3 tile 
+	validPositions := []int{1, 4, 7, 10}
+	validity, groupPosition := GroupOfWinningTile(hands.winnngTile, validPositions)
+	groupChi := hands.grouped[groupPosition].chi
+	// group must be chi
+	if validity && groupChi{
+		r.names = append(r.names,"坎张")
+		r.score += 1
+		return r
+	}
+	return r
+}
 
-// func 单钓() {
-// 	name := "单钓"
-// 	score := 1
-// }
+func 单钓(hands Hands, r Output) Output {
+	// winning tile is one of the pair
+	validPositions := []int{12, 13}
+	if ContainedInt(validPositions, hands.winnngTile){
+		r.names = append(r.names,"单钓")
+		r.score += 1
+		return r
+	}
+	return r
+}

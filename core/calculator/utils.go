@@ -128,10 +128,51 @@ func extractData(hands []TileGroup, mode string) []int{
 	return handTiles
 }
 
-func containedInt(slice []int, tile int) bool {
+func ContainedInt(slice []int, tile int) bool {
 	for _, i := range slice {
 		if tile == i {
 			return true
+		}
+	}
+	return false
+}
+
+func GroupOfWinningTile(posWinningTile int, validPositions []int)(bool, int){
+	for groupPos, pos := range validPositions {
+		if pos == posWinningTile {
+			return true, pos
+		}
+	}
+	return false, 0
+}
+
+func ExtractPatterns(grouped []TileGroup) []int{
+	var extracted []int{}
+	for _, group := range grouped {
+		extracted = append(extracted, group.pattern)
+	}
+	return extracted
+}
+
+func ExtractChi(grouped []TileGroup) [][]int {
+	var extracted [][]int{}
+	for _, group := range grouped {
+		if group.chi {
+			extracted = append(extracted, group)
+		}
+	}
+	return extracted
+}
+
+func CompareChi(chis [][]int, gap int) bool {
+	prev := []int{}
+	for _, chi := range chis{
+		if len(prev) == 0 {
+			prev = chi
+		}else{
+			if chi[0] - prev[2] = gap {
+				return true
+			}
 		}
 	}
 	return false
