@@ -1,3 +1,5 @@
 export default function Calculator() {
-    return <div>Hello World Calculator</div>
+    return (
+        <div>Hello World Calculator</div>
+    )
 }
