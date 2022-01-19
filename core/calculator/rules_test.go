@@ -15,15 +15,16 @@ func Test大四喜(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{28, 28, 28, 29, 29, 29, 30, 30, 30, 31, 31, 31, 1, 1},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 大四喜(hands, result) 
+	got := 大四喜(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -40,15 +41,16 @@ func Test大三元(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{32, 32, 32, 33, 33, 33, 34, 34, 34, 31, 31, 31, 1, 1},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 大三元(hands, result) 
+	got := 大三元(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -65,15 +67,16 @@ func Test绿一色(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{11,11,11,12,12,12,15,15,15,33,33,33,17,17},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 绿一色(hands, result) 
+	got := 绿一色(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -90,15 +93,16 @@ func Test九莲宝灯(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{1,1,1,9,9,9,2,3,4,5,6,7,8,8},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 九莲宝灯(hands, result) 
+	got := 九莲宝灯(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -115,15 +119,16 @@ func Test四杠(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{1,1,1,9,9,9,2,2,2,3,3,3,8,8},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 四杠(hands, result) 
+	got := 四杠(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -140,15 +145,16 @@ func Test连七对(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{1,1,2,2,3,3,4,4,5,5,6,6,8,8},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 连七对(hands, result) 
+	got := 连七对(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -165,15 +171,16 @@ func Test十三幺(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34, 34},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 连七对(hands, result) 
+	got := 连七对(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -215,15 +222,16 @@ func Test小四喜(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{28,28,28,29,29,29,30,30,30,18,18,18,31,31},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 小四喜(hands, result) 
+	got := 小四喜(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -240,15 +248,16 @@ func Test小三元(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{32,32,32,33,33,33,30,30,30,18,18,18,34,34},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 小三元(hands, result) 
+	got := 小三元(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -265,15 +274,16 @@ func Test字一色(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{32,32,32,33,33,33,30,30,30,29,29,29,34,34},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 字一色(hands, result) 
+	got := 字一色(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -290,15 +300,16 @@ func Test四暗刻(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{32,32,32,33,33,33,30,30,30,29,29,29,34,34},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 四暗刻(hands, result) 
+	got := 四暗刻(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -415,15 +426,16 @@ func Test三杠(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{32,32,32,33,33,33,30,30,30,29,29,29,34,34},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 三杠(hands, result) 
+	got := 三杠(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got, want)
 	}
 }
 
@@ -465,15 +477,16 @@ func Test七对(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{32,32,33,33,34,34,30,30,9,9,29,29,34,34},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 七对(hands, result) 
+	got := 七对(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -515,15 +528,16 @@ func Test全双刻(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{2,2,2,4,4,4,6,6,6,8,8,8,11,11},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 全双刻(hands, result) 
+	got := 全双刻(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -540,15 +554,16 @@ func Test清一色(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{1,2,3,4,5,6,7,8,9,2,3,4,3,3},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 清一色(hands, result) 
+	got := 清一色(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -615,15 +630,16 @@ func Test全大(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{7,8,9,16,17,18,25,26,27,7,8,9,18,18},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 全大(hands, result) 
+	got := 全大(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -640,15 +656,16 @@ func Test全中(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{4,5,6,13,14,15,22,23,24,4,5,6,14,14},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 全中(hands, result) 
+	got := 全中(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -665,15 +682,16 @@ func Test全小(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{1,2,3,10,11,12,19,20,21,1,2,3,20,20},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 全小(hands, result) 
+	got := 全小(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -690,15 +708,16 @@ func Test清龙(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{1,2,3,4,5,6,7,8,9,1,2,3,20,20},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 清龙(hands, result) 
+	got := 清龙(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 
@@ -765,15 +784,16 @@ func Test全带五(t *testing.T) {
 	hands := Hands{
 		grouped: groupedHand,
 		ungrouped: []int{3,4,5,4,5,6,13,14,15,14,15,16,23,23},
+		won: true,
 	}
 	result := Output{}
 
 	// test function 
-	got = 全带五(hands, result) 
+	got := 全带五(hands, result) 
 
 	// check results
 	if got.score != want {
-		t.Errorf("Test output %d is not equal to expected output %d", got, want)
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
 	}
 }
 

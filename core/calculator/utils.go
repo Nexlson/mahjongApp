@@ -28,12 +28,30 @@ func checkContained(target []int, hand []int) bool {
 			}
 		}
 	}
-	if count == len(hand) {
+	if count == len(target) {
 		return true
 	}else{
 		return false
 	}
 }
+
+// compare two slice and return if slice in hand is available in slice in valid 
+func checkContain(valid []int, hand []int, rule int) bool {
+	count := 0 
+	for _, v := range valid {
+		for _, h := range hand {
+			if v == h {
+				count += 1
+			}
+		}
+	}
+	if count == rule {
+		return true
+	}else {
+		return false
+	}
+}
+
 
 // check all tiles is same pattern
 func checkSamePattern (tiles []int) (bool, int) {
@@ -44,6 +62,23 @@ func checkSamePattern (tiles []int) (bool, int) {
 		}
 	}
 	return false, 0
+}
+
+func extractPattern2List (group []TileGroup) []int {
+	patternList := []int{}
+	for _, g := range group {
+		patternList = append(patternList,[]int{g.pattern}...)
+	}
+	return patternList
+}
+
+func checkPattern(list []int) bool {
+	removeDup = removeDuplicateInt(list)
+	if len(removeDup) == 1 {
+		return true
+	}else {
+		return false
+	}
 }
 
 // check if group contained chi 

@@ -1,5 +1,7 @@
 package calculator
 
+import "fmt"
+
 // 88 points
 func 大四喜(hands Hands, r Output) Output {
 	validTiles := []int{28, 29, 30, 31}
@@ -8,7 +10,7 @@ func 大四喜(hands Hands, r Output) Output {
 	handTiles := extractData(hands.grouped, "pong") // extract pong labelled tiles
 
 	// compare both list 
-	if checkContained(validTiles, handTiles) && hands.won { // compare if all pong labelled are same as rule
+	if checkContain(validTiles, handTiles, len(validTiles)) && hands.won { // compare if all pong labelled are same as rule
 		r.names = append(r.names,"大四喜")
 		r.score += 88
 		r.exceptions = append(r.exceptions,[]int{38, 48, 60, 61, 73}...)
@@ -24,7 +26,7 @@ func 大三元(hands Hands, r Output) Output {
 	handTiles := extractData(hands.grouped, "pong")
 
 	// compare both list 
-	if checkContained(validTiles, handTiles) && hands.won {
+	if checkContain(validTiles, handTiles, len(validTiles)) && hands.won {
 		r.names = append(r.names,"大三元")
 		r.score += 88
 		r.exceptions = append(r.exceptions,[]int{54, 59, 73}...)
@@ -39,7 +41,7 @@ func 绿一色(hands Hands, r Output) Output {
 	handTiles := removeDuplicateInt(hands.ungrouped)
 
 	// if everything in hand is contained in valid tiles
-	if checkContained(validTiles, handTiles) && hands.won {
+	if checkContain(validTiles, handTiles, len(handTiles)) && hands.won {
 		r.names = append(r.names,"绿一色")
 		r.score += 88
 		if ContainedInt(handTiles, 33) {
@@ -56,8 +58,14 @@ func 九莲宝灯(hands Hands, r Output) Output {
 	validPongs := []int{1, 9, 10, 18, 19, 27}
 	handPongs := extractData(hands.grouped, "pong")
 
+	fmt.Println(validPongs)
+	fmt.Println(handPongs)
+	fmt.Println(checkContain(validPongs, handPongs, len(handPongs)))
+
 	samePattern, _ := checkSamePattern(hands.ungrouped)
-	contained := checkContained(validPongs, handPongs)
+	contained := checkContain(validPongs, handPongs, len(handPongs))
+
+	fmt.Println(extractPattern2List(hands.grouped))
 
 	// remove duplicate, pong tiles, 
 	removedDup := removeDuplicateInt(hands.ungrouped)
