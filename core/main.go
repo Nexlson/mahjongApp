@@ -1,13 +1,33 @@
-package core
+package main
 
 import (
-	"github.com/Nexlson/mahjongApp/backend/calculator"
-	"fmt"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	test123 := calculator.Test()
+	r := gin.Default()
 
-	fmt.Printf("%+v\n", test123)
+	// landing page backend
+	r.GET("/", func(c *gin.Context) {
+		c.String(200, "Hello World from mahjong server backend")
+	})
+	
+	// calculator
+	// r.POST("calculate" calculator.calculate)
+
+	// docs
+	// get data from backend
+	r.GET("/docs", getDocs)
+
+	// score logger
+
+	r.Run(":3500") // listen and serve on locahost:8080
+}
+
+func getDocs(c *gin.Context) {
+
+}
+
+func postCalculate(c *gin.Context) {
 
 }
