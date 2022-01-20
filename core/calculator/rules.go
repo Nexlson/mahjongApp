@@ -309,16 +309,45 @@ func 清一色(hands Hands, r Output) Output {
 }
 
 func 一色三同顺(hands Hands, r Output) Output {
-// 	name := "一色三同顺"
-// 	score := 24
-// 	exceptions := []int{24, 69}
+	samePattern := [][]int{}
+	for _, g := range hands.grouped {
+		for _, x := range hands.grouped {
+			if sameSlice(g.tiles, x.tiles){
+				samePattern = append(samePattern,x.tiles)
+			}
+		}
+		break
+	}
+	if len(samePattern) == 3{
+		r.names = append(r.names,"一色三同顺")
+		r.score += 24
+		r.exceptions = append(r.exceptions,[]int{24, 69}...)
+		return r
+	}
 	return r
 }
 
 func 一色三节高(hands Hands, r Output) Output {
-// 	name := "一色三节高"
-// 	score := 24
-// 	exceptions := []int{23}
+	for _, x := range hands.grouped {
+		for _, y := range hands.grouped {
+			for _, z := range hands.grouped {
+				if !sameSlice(x.tiles,y.tiles) && !sameSlice(y.tiles,z.tiles) && !sameSlice(x.tiles,z.tiles){
+					if x.pong && y.pong && z.pong {
+						newSlice := removeDuplicateInt(mergeSlices(deValueGroup(x.tiles), deValueGroup(y.tiles), deValueGroup(z.tiles)))
+						if checkChi(newSlice){
+								if x.pattern == y.pattern && x.pattern == z.pattern && y.pattern == z.pattern && hands.won{
+									r.names = append(r.names,"一色三节高")
+									r.score += 24
+									r.exceptions = append(r.exceptions,[]int{23}...)
+									return r
+								}
+							}
+							
+					}
+				}
+			}
+		}
+	}
 	return r
 }
 
@@ -383,8 +412,20 @@ func 三色双龙会(hands Hands, r Output) Output {
 }
 
 func 一色三步高(hands Hands, r Output) Output {
-// 	name := "一色三步高"
-// 	score := 16
+	for _, x := range hands.grouped[:4] {
+		for _, y := range hands.grouped[:4] {
+			for _, z := range hands.grouped[:4] {
+				if !sameSlice(x.tiles,y.tiles) && !sameSlice(y.tiles,z.tiles) && !sameSlice(x.tiles,z.tiles){
+					logic := x.pattern == y.pattern && y.pattern == z.pattern && x.pattern == z.pattern
+					if checkGap(x.tiles, y.tiles, z.tiles) && logic && hands.won{
+						r.names = append(r.names,"一色三步高")
+						r.score += 16
+						return r
+					}
+				}
+			}
+		}
+	}
 	return r
 }
 
@@ -407,99 +448,184 @@ func 全带五(hands Hands, r Output) Output {
 	return r
 }
 
-func gapBetweenTile(group []int, gap int) bool{
-	prev := 0 
-	for _, tile := range group {
-		if prev == 0 {
-			tile = prev
-		}else {
-			if tile - prev != gap {
-				return false
+func 三同刻(hands Hands, r Output) Output {
+	for _, x := range hands.grouped {
+		for _, y := range hands.grouped {
+			for _, z := range hands.grouped {
+				if !sameSlice(x.tiles,y.tiles) && !sameSlice(y.tiles,z.tiles) && !sameSlice(x.tiles,z.tiles){
+					if x.pong && y.pong && z.pong {
+						if sameSlice(deValueGroup(x.tiles), deValueGroup(y.tiles)) && 
+							sameSlice(deValueGroup(x.tiles), deValueGroup(z.tiles)) && 
+							sameSlice(deValueGroup(y.tiles), deValueGroup(z.tiles)){
+								if x.pattern != y.pattern && x.pattern != z.pattern && y.pattern != z.pattern && hands.won{
+									r.names = append(r.names,"三同刻")
+									r.score += 16
+									r.exceptions = append(r.exceptions,[]int{65}...)
+									return r
+								}
+							}
+							
+					}
+				}
 			}
 		}
 	}
-	return true
-}
-
-func 三同刻(hands Hands, r Output) Output {
-// 	name := "三同刻"
-// 	score := 16
-// 	exceptions := []int{65}
-
-// 3 pong + between each pong is 9 
 	return r
 }
-
 
 func 三暗刻(hands Hands, r Output) Output {
-// 	name := "三暗刻"
-// 	score := 16
-
-// 	// 3 closed pong
-
+	count := 0 
+	for _, group := range hands.grouped {
+		if !group.open && group.pong {
+			count += 1
+		}
+	}
+	if count == 3 && hands.won{
+		r.names = append(r.names,"三暗刻")
+		r.score += 16
+		return r
+	}
 	return r
 }
 
-
 func 全不靠(hands Hands, r Output) Output {
-// 	name := "全不靠"
-// 	score := 12
-// 	exceptions := []int{51, 56, 62}
+	handTiles := removeDuplicateInt(hands.ungrouped)
+	validTiles := []int{28,29,30,31,32,33,34}
+	count := countOccurance(handTiles, validTiles)
+	if special147(hands) && count == 5{
+		r.names = append(r.names,"全不靠")
+		r.score += 12
+		r.exceptions = append(r.exceptions,[]int{51, 56, 62}...)
+	}
 	return r
 }
 
 func 组合龙(hands Hands, r Output) Output {
-// 	name := "组合龙"
-// 	score := 12
+	cpong := countStatus(hands.grouped, "pong")
+	cpair := countStatus(hands.grouped, "pair")
+	cchi := countStatus(hands.grouped, "chi")
+	logic := cpong != 0 || cchi != 0
+	if special147(hands) && logic && cpair != 0{
+		r.names = append(r.names,"组合龙")
+		r.score += 12
+		return r
+	}
 	return r
 }
 
 func 大于五(hands Hands, r Output) Output {
-// 	name := "大于五"
-// 	score := 12
-// 	exceptions := []int{76}
+	validTiles := []int {6,7,8,9,15,16,17,18,24,25,26,27}
+	handTiles := removeDuplicateInt(hands.ungrouped)
+	if checkContain(validTiles, handTiles, len(handTiles)) && hands.won {
+		r.names = append(r.names,"大于五")
+		r.score += 12
+		r.exceptions = append(r.exceptions,[]int{76}...)
+	}
 	return r
 }
 
-
 func 小于五(hands Hands, r Output) Output {
-// 	name := "小于五"
-// 	score := 12
-// 	exceptions := []int{76}
+	validTiles := []int {1,2,3,4,10,11,12,13,19,20,21,22}
+	handTiles := removeDuplicateInt(hands.ungrouped)
+	if checkContain(validTiles, handTiles, len(handTiles)) && hands.won {
+		r.names = append(r.names,"小于五")
+		r.score += 12
+		r.exceptions = append(r.exceptions,[]int{76}...)
+	}
 	return r
 }
 
 func 三风刻(hands Hands, r Output) Output {
-// 	name := "三风刻"
-// 	score := 12
-// 	exceptions := []int{73}
+	handPong := extractData(hands.grouped, "pong")
+	if len(handPong) == 3 && hands.won {
+		r.names = append(r.names,"三风刻")
+		r.score += 12
+		r.exceptions = append(r.exceptions,[]int{73}...)
+	}
 	return r
 }
 
 
 func 花龙(hands Hands, r Output) Output {
-// 	name := "花龙"
-// 	score := 8
+	for _, x := range hands.grouped {
+		for _, y := range hands.grouped{
+			for _, z := range hands.grouped{
+				if !sameSlice(x.tiles,y.tiles) && !sameSlice(y.tiles,z.tiles) && !sameSlice(x.tiles,z.tiles){
+					if x.chi && y.chi && z.chi {
+						if x.pattern != y.pattern && x.pattern != z.pattern && y.pattern != z.pattern && hands.won{
+							final := append(deValueGroup(x.tiles), deValueGroup(y.tiles)...)
+							final = append(final, deValueGroup(z.tiles)...)
+							if sameSlice(final, []int{1,2,3,4,5,6,7,8,9}) && hands.won{
+								r.names = append(r.names,"花龙")
+								r.score += 8
+								r.exceptions = append(r.exceptions,[]int{70}...)
+								return r
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 	return r
 }
 
 func 推不倒(hands Hands, r Output) Output {
-// 	name := "推不倒"
-// 	score := 8
-// 	exceptions := []int{75}
+	validTiles := []int {1,2,3,4,5,8,9,11,13,14,15,17,18,34}
+	handTiles := removeDuplicateInt(hands.ungrouped)
+	if checkContain(validTiles, handTiles, len(handTiles)) && hands.won{
+		r.names = append(r.names,"推不倒")
+		r.score += 8
+		r.exceptions = append(r.exceptions,[]int{75}...)
+	}
 	return r
 }
 
 func 三色三同顺(hands Hands, r Output) Output {
-// 	name := "三色三同顺"
-// 	score := 8
-// 	exceptions := []int{70}
+	for _, x := range hands.grouped {
+		for _, y := range hands.grouped {
+			for _, z := range hands.grouped {
+				if !sameSlice(x.tiles,y.tiles) && !sameSlice(y.tiles,z.tiles) && !sameSlice(x.tiles,z.tiles){
+					if x.chi && y.chi && z.chi {
+						if sameSlice(deValueGroup(x.tiles), deValueGroup(y.tiles)) && 
+							sameSlice(deValueGroup(x.tiles), deValueGroup(z.tiles)) && 
+							sameSlice(deValueGroup(y.tiles), deValueGroup(z.tiles)){
+								if x.pattern != y.pattern && x.pattern != z.pattern && y.pattern != z.pattern && hands.won{
+									r.names = append(r.names,"三色三同顺")
+									r.score += 8
+									r.exceptions = append(r.exceptions,[]int{70}...)
+									return r
+								}
+							}
+							
+					}
+				}
+			}
+		}
+	}
 	return r
 }
 
 func 三色三节高(hands Hands, r Output) Output {
-// 	name := "三色三节高"
-// 	score := 8
+	for _, x := range hands.grouped {
+		for _, y := range hands.grouped {
+			for _, z := range hands.grouped {
+				if !sameSlice(x.tiles,y.tiles) && !sameSlice(y.tiles,z.tiles) && !sameSlice(x.tiles,z.tiles){
+					if x.pong && y.pong && z.pong {
+						newSlice := removeDuplicateInt(mergeSlices(deValueGroup(x.tiles), deValueGroup(y.tiles), deValueGroup(z.tiles)))
+						if checkChi(newSlice){
+								if x.pattern != y.pattern && x.pattern != z.pattern && y.pattern != z.pattern && hands.won{
+									r.names = append(r.names,"三色三节高")
+									r.score += 8
+									return r
+								}
+							}
+							
+					}
+				}
+			}
+		}
+	}
 	return r
 }
 
@@ -519,7 +645,7 @@ func 碰碰和(hands Hands, r Output) Output {
 			count += 1
 		}
 	}
-	if count == 4 {
+	if count == 4 && hands.won{
 		r.names = append(r.names,"碰碰和")
 		r.score += 6
 		r.exceptions = append(r.exceptions,[]int{79}...)
@@ -533,22 +659,49 @@ func 混一色(hands Hands, r Output) Output {
 	validSeq := []int{1,2,3}
 	validUniq := []int{4,5}	
 	remained := removeDuplicateInt(removeIntFromSlice(patternList, validUniq))
-	if len(removeDuplicateInt(patternList)) <= 3 && checkAnyTileisInSlice(patternList, validUniq) && len(remained) == 1 && checkContain(validSeq, remained, len(remained)) {
-		r.names = append(r.names,"混一色")
-		r.score += 6
+	if len(removeDuplicateInt(patternList)) <= 3 && checkAnyTileisInSlice(patternList, validUniq) && len(remained) == 1 && 
+		checkContain(validSeq, remained, len(remained)) && hands.won{
+			r.names = append(r.names,"混一色")
+			r.score += 6
 	} 
 	return r
 }
 
+func checkGap(slice1 []int, slice2 []int, slice3 []int) bool{
+	a := deValueGroup(slice1)
+	b := deValueGroup(slice2)
+	c := deValueGroup(slice3)
+
+	if a[len(a)-1] == b[0] && b[len(b)-1] == c[0]{
+		return true
+	}else if  a[len(a)-1] == (b[0] + 1) && b[len(b)-1] == (c[0] + 1) {
+		return true
+	}else{
+		return false
+	}
+}
+
 func 三色三步高(hands Hands, r Output) Output {
-// 	name := "三色三步高"
-// 	score := 6
+	for _, x := range hands.grouped[:4] {
+		for _, y := range hands.grouped[:4] {
+			for _, z := range hands.grouped[:4] {
+				if !sameSlice(x.tiles,y.tiles) && !sameSlice(y.tiles,z.tiles) && !sameSlice(x.tiles,z.tiles){
+					logic := x.pattern != y.pattern && y.pattern != z.pattern && x.pattern != z.pattern
+					if checkGap(x.tiles, y.tiles, z.tiles) && logic && hands.won{
+						r.names = append(r.names,"三色三步高")
+						r.score += 6
+						return r
+					}
+				}
+			}
+		}
+	}
 	return r
 }
 
 func 五门齐(hands Hands, r Output) Output {
 	patternList := extractPattern2List(hands.grouped)
-	if len(patternList) == 5 {
+	if len(patternList) == 5 && hands.won{
 		r.names = append(r.names,"五门齐")
 		r.score += 6
 	}
@@ -562,7 +715,7 @@ func 全求人(hands Hands, r Output) Output {
 			count += 1
 		}
 	}
-	if count == 5 {
+	if count == 5 && hands.won{
 		r.names = append(r.names,"全求人")
 		r.score += 6
 		r.exceptions = append(r.exceptions,[]int{79}...)
@@ -578,7 +731,7 @@ func 双暗杠(hands Hands, r Output) Output {
 			count += 1
 		}
 	}
-	if count == 2 {
+	if count == 2 && hands.won{
 		r.names = append(r.names,"双暗杠")
 		r.score += 6
 		return r
@@ -589,7 +742,7 @@ func 双暗杠(hands Hands, r Output) Output {
 func 双箭刻(hands Hands, r Output) Output {
 	handPong := extractData(hands.grouped, "pong")
 	validTiles := []int{32,33,34}
-	if checkAnyTileisInSlice(handPong, validTiles) && len(handPong) == 2{
+	if checkAnyTileisInSlice(handPong, validTiles) && len(handPong) == 2 && hands.won{
 		r.names = append(r.names,"双箭刻")
 		r.score += 6
 		r.exceptions = append(r.exceptions,[]int{59}...)
@@ -600,7 +753,7 @@ func 双箭刻(hands Hands, r Output) Output {
 func 全带幺(hands Hands, r Output) Output {
 	validTiles := []int {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34}
 	for _, g := range hands.grouped {
-		if checkAnyTileisInSlice(validTiles, g.tiles) {
+		if checkAnyTileisInSlice(validTiles, g.tiles) && hands.won{
 			r.names = append(r.names,"全带幺")
 			r.score += 4
 			return r
@@ -616,7 +769,7 @@ func 不求人(hands Hands, r Output) Output {
 			count += 1
 		}
 	}
-	if count == 5 {
+	if count == 5 && hands.won{
 		r.names = append(r.names,"不求人")
 		r.score += 4
 		r.exceptions = append(r.exceptions,[]int{80}...)
@@ -632,7 +785,7 @@ func 双明杠(hands Hands, r Output) Output {
 			count += 1
 		}
 	}
-	if count == 2 {
+	if count == 2 && hands.won{
 		r.names = append(r.names,"双明杠")
 		r.score += 4
 		return r
@@ -643,7 +796,7 @@ func 双明杠(hands Hands, r Output) Output {
 func 箭刻(hands Hands, r Output) Output {
 	handPong := extractData(hands.grouped, "pong")
 	validTiles := []int{32,33,34}
-	if checkAnyTileisInSlice(handPong, validTiles) && len(handPong) == 1{
+	if checkAnyTileisInSlice(handPong, validTiles) && len(handPong) == 1 && hands.won{
 		r.names = append(r.names,"箭刻")
 		r.score += 2
 		r.exceptions = append(r.exceptions,[]int{73}...)
@@ -653,7 +806,7 @@ func 箭刻(hands Hands, r Output) Output {
 
 func 圈风刻(hands Hands, r Output) Output {
 	handPong := extractData(hands.grouped, "pong")
-	if containedInt(handPong, hands.round) {
+	if containedInt(handPong, hands.round) && hands.won{
 		r.names = append(r.names,"圈风刻")
 		r.score += 2
 		r.exceptions = append(r.exceptions,[]int{73}...)
@@ -663,7 +816,7 @@ func 圈风刻(hands Hands, r Output) Output {
 
 func 门风刻(hands Hands, r Output) Output {
 	handPong := extractData(hands.grouped, "pong")
-	if containedInt(handPong, hands.turn) {
+	if containedInt(handPong, hands.turn) && hands.won{
 		r.names = append(r.names,"门风刻")
 		r.score += 2
 		r.exceptions = append(r.exceptions,[]int{73}...)
@@ -673,7 +826,7 @@ func 门风刻(hands Hands, r Output) Output {
 
 func 门前清(hands Hands, r Output) Output {
 	openStatusList := extractTileStatus(hands.grouped, "open")
-	if !openStatusList[0] && !openStatusList[1] && !openStatusList[2] && !openStatusList[3] && openStatusList[4] {
+	if !openStatusList[0] && !openStatusList[1] && !openStatusList[2] && !openStatusList[3] && openStatusList[4] && hands.won{
 		r.names = append(r.names,"门前清")
 		r.score += 2
 	}
@@ -682,7 +835,7 @@ func 门前清(hands Hands, r Output) Output {
 
 func 平和(hands Hands, r Output) Output {
 	chiStatusList := extractTileStatus(hands.grouped[:4], "chi")
-	if chiStatusList[0] && chiStatusList[1] && chiStatusList[2] && chiStatusList[3] {
+	if chiStatusList[0] && chiStatusList[1] && chiStatusList[2] && chiStatusList[3] && hands.won{
 		r.names = append(r.names,"平和")
 		r.score += 2
 		r.exceptions = append(r.exceptions,[]int{76}...)
@@ -694,7 +847,7 @@ func 平和(hands Hands, r Output) Output {
 func 四归一(hands Hands, r Output) Output {
 	kongList := extractTileStatus(hands.grouped[:4], "kong")
 	_, largeTileCount := getLargestCountTiles(hands.ungrouped)
-	if !(kongList[0] && kongList[1] && kongList[2] && kongList[3]) && largeTileCount == 4{
+	if !(kongList[0] && kongList[1] && kongList[2] && kongList[3]) && largeTileCount == 4 && hands.won{
 		r.names = append(r.names,"四归一")
 		r.score += 2
 		return r
@@ -707,7 +860,7 @@ func 双同刻(hands Hands, r Output) Output {
 	for _, pongPrev := range pongList {
 		for _, pongCur := range pongList {
 			if pongPrev != pongCur {
-				if deValue(pongPrev) == deValue(pongCur) {
+				if deValue(pongPrev) == deValue(pongCur) && hands.won{
 					r.names = append(r.names,"双同刻")
 					r.score += 2
 					return r
@@ -726,7 +879,7 @@ func 双暗刻(hands Hands, r Output) Output {
 			count += 1
 		}
 	}
-	if count == 2 {
+	if count == 2 && hands.won{
 		r.names = append(r.names,"双暗刻")
 		r.score += 2
 		return r
@@ -741,7 +894,7 @@ func 暗杠(hands Hands, r Output) Output {
 			count += 1
 		}
 	}
-	if count == 1 {
+	if count == 1 && hands.won{
 		r.names = append(r.names,"暗杠")
 		r.score += 2
 		return r
@@ -751,7 +904,7 @@ func 暗杠(hands Hands, r Output) Output {
 
 func 断幺(hands Hands, r Output) Output {
 	validTiles := []int {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34}
-	if !checkAnyTileisInSlice(validTiles, removeDuplicateInt(hands.ungrouped)) {
+	if !checkAnyTileisInSlice(validTiles, removeDuplicateInt(hands.ungrouped)) && hands.won{
 		r.names = append(r.names,"断幺")
 		r.score += 2
 		r.exceptions = append(r.exceptions,[]int{76}...)
@@ -767,7 +920,7 @@ func 一般高(hands Hands, r Output) Output {
 		for _, chiCurrent := range hands.grouped{
 			if sameSlice(chiPrev.tiles, chiCurrent.tiles) && (chiPrev.pattern == chiCurrent.pattern) {
 				count += 1
-				if count >= 2 {
+				if count >= 2 && hands.won{
 					r.names = append(r.names,"一般高")
 					r.score += 1
 					return r
@@ -786,7 +939,7 @@ func 喜相逢(hands Hands, r Output) Output {
 			if !sameSlice(chiPrev.tiles, chiCurrent.tiles) {
 				devaluePrev := deValueGroup(chiPrev.tiles)
 				devalueCurr := deValueGroup(chiCurrent.tiles)
-				if sameSlice(devaluePrev, devalueCurr) && (chiPrev.pattern != chiCurrent.pattern) {
+				if sameSlice(devaluePrev, devalueCurr) && (chiPrev.pattern != chiCurrent.pattern) && hands.won{
 					r.names = append(r.names,"喜相逢")
 					r.score += 1
 					return r
@@ -800,8 +953,8 @@ func 喜相逢(hands Hands, r Output) Output {
 }
 
 func 连六(hands Hands, r Output) Output {
-	handChis := ExtractChi(hands.grouped)
-	if CompareChi(handChis, 1) {
+	handChis := extractChi(hands.grouped)
+	if CompareChi(handChis, 1) && hands.won{
 		r.names = append(r.names,"连六")
 		r.score += 1
 		return r
@@ -812,10 +965,10 @@ func 连六(hands Hands, r Output) Output {
 func 老少副(hands Hands, r Output) Output {
 	// same pattern of 1 2 3, 7 8 9
 	validTiles := [][]int{{1,2,3},{7,8,9}, {10,11,12},{16,17,18}, {19,20,21},{25,26,27}}
-	chisGroup := ExtractChi(hands.grouped)
+	chisGroup := extractChi(hands.grouped)
 	for _, g := range chisGroup {
 		for _, vt := range validTiles{
-			if checkContain(g, vt, len(g)){
+			if checkContain(g, vt, len(g)) && hands.won{
 					r.names = append(r.names,"老少副")
 					r.score += 1
 					return r
@@ -829,7 +982,7 @@ func 幺九刻(hands Hands, r Output) Output {
 	// pong of 19 and zhi
 	validTiles := []int {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34}
 	handPongTiles := extractData(hands.grouped, "pong")
-	if checkContain(validTiles, handPongTiles, len(handPongTiles)) {
+	if checkContain(validTiles, handPongTiles, len(handPongTiles)) && hands.won{
 		r.names = append(r.names,"幺九刻")
 		r.score += 1
 		return r
@@ -845,7 +998,7 @@ func 明杠(hands Hands, r Output) Output {
 			count += 1
 		}
 	}
-	if count == 1 {
+	if count == 1 && hands.won{
 		r.names = append(r.names,"明杠")
 		r.score += 1
 		return r
@@ -857,7 +1010,7 @@ func 缺一门(hands Hands, r Output) Output {
 	// doesnt have one of the pattern
 	validPattern := []int{1,2,3,4}
 	handPattern := ExtractPatterns(hands.grouped)
-	if !checkContained(validPattern, handPattern) {
+	if !checkContained(validPattern, handPattern) && hands.won{
 		r.names = append(r.names,"缺一门")
 		r.score += 1
 		return r
@@ -868,7 +1021,7 @@ func 缺一门(hands Hands, r Output) Output {
 func 无字(hands Hands, r Output) Output {
 	// doesnt contain 字 pattern
 	handPattern := ExtractPatterns(hands.grouped)
-	if !containedInt(handPattern, 4){
+	if !containedInt(handPattern, 4) && hands.won{
 		r.names = append(r.names,"无字")
 		r.score += 1
 		return r
@@ -886,7 +1039,7 @@ func 边张(hands Hands, r Output) Output {
 	}else{
 		groupChi = false
 	}
-	if validity && groupChi{
+	if validity && groupChi && hands.won{
 		r.names = append(r.names,"边张")
 		r.score += 1
 		return r
@@ -905,7 +1058,7 @@ func 坎张(hands Hands, r Output) Output {
 		groupChi = false
 	}
 	// group must be chi
-	if validity && groupChi{
+	if validity && groupChi && hands.won{
 		r.names = append(r.names,"坎张")
 		r.score += 1
 		return r
@@ -916,7 +1069,7 @@ func 坎张(hands Hands, r Output) Output {
 func 单钓(hands Hands, r Output) Output {
 	// winning tile is one of the pair
 	validPositions := []int{12, 13}
-	if containedInt(validPositions, hands.winnngTile){
+	if containedInt(validPositions, hands.winnngTile) && hands.won{
 		r.names = append(r.names,"单钓")
 		r.score += 1
 		return r

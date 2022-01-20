@@ -66,7 +66,6 @@ func checkContain(valid []int, hand []int, rule int) bool {
 	}
 }
 
-
 // check all tiles is same pattern
 func checkSamePattern (tiles []int) (bool, int) {
 	minMax := minMax(tiles)
@@ -97,19 +96,21 @@ func checkPattern(list []int) bool {
 
 // check if group contained chi 
 func checkChi(group []int) bool{
-	prev := 0
-	for _, tile := range group {
-		if prev == 0 {
-			prev = tile
-		}else{
-			if tile - prev != 1 {
-				return false
-			}else{
-				prev = tile
+	count := 0 
+	for _, x := range group {
+		for _, y := range group{
+			if x != y {
+				if y - x == 1 {
+					count += 1
+				}
 			}
 		}
 	}
-	return true
+	if count == 2 {
+		return true
+	}else{
+		return false
+	}
 }
 
 // check if group contained pong
@@ -218,7 +219,7 @@ func ExtractPatterns(grouped []TileGroup) []int{
 	return extracted
 }
 
-func ExtractChi(grouped []TileGroup) [][]int {
+func extractChi(grouped []TileGroup) [][]int {
 	var extracted [][]int
 	for _, group := range grouped {
 		if group.chi {
@@ -289,6 +290,10 @@ func countStatus(grouped []TileGroup, status string) int{
 			}
 		}else if status == "pong"{
 			if group.pong{
+				count += 1
+			}
+		}else if status == "pair"{
+			if group.pair{
 				count += 1
 			}
 		}
@@ -377,4 +382,53 @@ func sameSlice(slice1 []int, slice2 []int) bool {
 		}
 	}
 	return true
+}
+
+func gapBetweenTile(group []int, gap int) bool{
+	for _, x := range group {
+		for _, y := range group {
+			if !(x == y) {
+				if y - x == gap {
+					return true
+				}
+			}
+		}
+		break
+	}
+	return false
+}
+
+func special147(hands Hands) bool{
+	for _, x := range hands.grouped {
+		for _, y := range hands.grouped{
+			for _, z := range hands.grouped{
+				if !sameSlice(x.tiles,y.tiles) && !sameSlice(y.tiles,z.tiles) && !sameSlice(x.tiles,z.tiles){
+					if x.pattern != y.pattern && x.pattern != z.pattern && y.pattern != z.pattern {
+						if gapBetweenTile(x.tiles, 3) && gapBetweenTile(y.tiles, 3) && gapBetweenTile(z.tiles, 3) {
+							return true
+						}
+					}
+				}
+			}
+		}
+	}
+	return false
+}
+
+func countOccurance(slice []int, slice2 []int) int{
+	count := 0
+	for _, s := range slice {
+		for _, s2 := range slice2 {
+			if s == s2 {
+				count += 1
+			}
+		}
+	}
+	return count
+}
+
+func mergeSlices(slice1 []int, slice2 []int, slice3 []int) []int {
+	slice1 = append(slice1, slice2...)
+	slice1 = append(slice1, slice3...)
+	return slice1
 }
