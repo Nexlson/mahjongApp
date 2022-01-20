@@ -17,7 +17,7 @@ type TileGroup struct {
 	kong bool 
 	chi bool
 	pair bool
-	pattern int // 1 - 筒, 2 - 条, 3 - 万 4 - 字 5 - Mixed
+	pattern int // 1 - 筒, 2 - 条, 3 - 万 4 - 风 5 - 箭
 }
 
 type Output struct {
@@ -33,8 +33,10 @@ var PatternLib = map[int][]int {
 	2: {10, 11, 12, 13, 14, 15, 16, 17, 18},
 	// 万
 	3: {19, 20, 21, 22, 23, 24, 25, 26, 27},
-	// 字
+	// 风
 	4: {28, 29, 30, 31, 32, 33, 34},
+	// 箭
+	5: {32, 33, 34},
 }
 
 // map tiles to id
