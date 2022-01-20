@@ -1,6 +1,9 @@
 package calculator
 
-import "sort"
+import (
+	"sort"
+	// "fmt"
+)
 
 // get min max of slices
 func minMax(array []int) []int {
@@ -73,7 +76,7 @@ func extractPattern2List (group []TileGroup) []int {
 }
 
 func checkPattern(list []int) bool {
-	removeDup = removeDuplicateInt(list)
+	removeDup := removeDuplicateInt(list)
 	if len(removeDup) == 1 {
 		return true
 	}else {
@@ -116,16 +119,20 @@ func checkPairs(hands []int) bool {
 }
 
 func removeIntFromSlice(slice []int, hand []int) []int {
-	output := []int{}
 	for _, h := range hand {
-		for _, s := range slice {
-			if h != s {
-				output = append(output,s)
-				break
-			}
+		slice = removeInt(slice, h)
+	}
+	return slice
+}
+
+func removeInt(slice []int, num int) []int {
+	newSlice := []int{}
+	for _, s := range slice {
+		if s != num {
+			newSlice = append(newSlice,[]int{s}...)
 		}
 	}
-	return output
+	return newSlice
 }
 
 func removeDuplicateInt(intSlice []int) []int {
@@ -251,4 +258,38 @@ func checkWon(hand Hands) Hands {
 
 func Hello() string {
 	return "Hello World"
+}
+
+func countStatus(grouped []TileGroup, status string) int{
+	count := 0 
+	for _, group := range grouped {
+		if status == "chi" {
+			if group.chi{
+				count += 1
+			}
+		}else if status == "pong"{
+			if group.pong{
+				count += 1
+			}
+		}
+	}
+	return count
+}
+
+func extractTileStatus(hands []TileGroup, mode string) []bool {
+	status := []bool {}
+	for _, group := range hands {
+		if mode == "kong" {
+			status = append(status, []bool{group.kong}...)
+		}else if mode == "open" {
+			if group.open == true {
+				status = append(status, []bool{group.open}...)
+			}
+		}else if mode == "pong" {
+			if group.pong == true {
+				status = append(status, []bool{group.pong}...)
+			}
+		}
+	}
+	return status
 }

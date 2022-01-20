@@ -176,7 +176,7 @@ func Test十三幺(t *testing.T) {
 	result := Output{}
 
 	// test function 
-	got := 连七对(hands, result) 
+	got := 十三幺(hands, result) 
 
 	// check results
 	if got.score != want {
@@ -472,11 +472,11 @@ func Test七对(t *testing.T) {
 		{[]int{33, 34, 34}, false, false, true, false, true, 4},
 		{[]int{30, 30, 9}, false, false, true, false, true, 4},
 		{[]int{9, 29, 29}, false, true, false, false, true, 4},
-		{[]int{34, 34}, false, false, false, false, true, 4},
+		{[]int{1, 1}, false, false, false, false, true, 4},
 	}
 	hands := Hands{
 		grouped: groupedHand,
-		ungrouped: []int{32,32,33,33,34,34,30,30,9,9,29,29,34,34},
+		ungrouped: []int{32,32,33,33,34,34,30,30,9,9,29,29,1,1},
 		won: true,
 	}
 	result := Output{}

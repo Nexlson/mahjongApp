@@ -1,6 +1,6 @@
 package calculator
 
-import "fmt"
+// import "fmt"
 
 // 88 points
 func 大四喜(hands Hands, r Output) Output {
@@ -58,14 +58,8 @@ func 九莲宝灯(hands Hands, r Output) Output {
 	validPongs := []int{1, 9, 10, 18, 19, 27}
 	handPongs := extractData(hands.grouped, "pong")
 
-	fmt.Println(validPongs)
-	fmt.Println(handPongs)
-	fmt.Println(checkContain(validPongs, handPongs, len(handPongs)))
-
-	samePattern, _ := checkSamePattern(hands.ungrouped)
+	samePattern := checkPattern(extractPattern2List(hands.grouped))
 	contained := checkContain(validPongs, handPongs, len(handPongs))
-
-	fmt.Println(extractPattern2List(hands.grouped))
 
 	// remove duplicate, pong tiles, 
 	removedDup := removeDuplicateInt(hands.ungrouped)
@@ -93,7 +87,7 @@ func 四杠(hands Hands, r Output) Output {
 }
 
 func 连七对(hands Hands, r Output) Output {
-	samePattern, _ := checkSamePattern(hands.ungrouped)
+	samePattern := checkPattern(extractPattern2List(hands.grouped))
 	if checkPairs(hands.ungrouped) && samePattern {
 		r.names = append(r.names,"连七对")
 		r.score += 88
@@ -106,7 +100,7 @@ func 连七对(hands Hands, r Output) Output {
 func 十三幺(hands Hands, r Output) Output {
 	validTiles := []int {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34}
 
-	if checkContained(validTiles, hands.ungrouped) {
+	if checkContain(validTiles, removeDuplicateInt(hands.ungrouped), 13) {
 		r.names = append(r.names,"十三幺")
 		r.score += 88
 		r.exceptions = append(r.exceptions,[]int{18, 51, 56, 62, 79}...)
@@ -157,8 +151,11 @@ func 小三元(hands Hands, r Output) Output {
 }
 
 func 字一色(hands Hands, r Output) Output {
-	samePattern, pattern := checkSamePattern(hands.ungrouped)
-	if samePattern && pattern == 4 && hands.won {
+	patternList := extractPattern2List(hands.grouped)
+	pattern := removeDuplicateInt(patternList)
+	samePattern := checkPattern(extractPattern2List(hands.grouped))
+
+	if samePattern && len(pattern) == 1 && pattern[0] == 4 && hands.won {
 		r.names = append(r.names,"字一色")
 		r.score += 64
 		r.exceptions = append(r.exceptions,[]int{48, 55, 73}...)
@@ -168,9 +165,11 @@ func 字一色(hands Hands, r Output) Output {
 }
 
 func 四暗刻(hands Hands, r Output) Output {
-	closedTiles := extractData(hands.grouped, "close")
+	threeTileGroup := hands.grouped[:4]
+	closedTiles := extractTileStatus(threeTileGroup, "open")
+	pongTiles := extractTileStatus(threeTileGroup, "pong")
 
-	if len(closedTiles) == 4 && hands.won {
+	if len(closedTiles) == 0 && len(pongTiles) == 4 && hands.won {
 		r.names = append(r.names,"四暗刻")
 		r.score += 64
 		r.exceptions = append(r.exceptions,[]int{48, 56, 62}...)
@@ -193,22 +192,6 @@ func 一色双龙会(hands Hands, r Output) Output {
 		}
 	}
 	return r
-}
-
-func countStatus(grouped []TileGroup, status string) int{
-	count := 0 
-	for _, group := range grouped {
-		if status == "chi" {
-			if group.chi{
-				count += 1
-			}
-		}else if status == "pong"{
-			if group.pong{
-				count += 1
-			}
-		}
-	}
-	return count
 }
 
 // same pattern for 4 group 
@@ -302,10 +285,10 @@ func 七星不靠(hands Hands, r Output) Output {
 }
 
 func 全双刻(hands Hands, r Output) Output {
-	validTiles := []int{} // TODO: add valid tiles
+	validTiles := []int{2,4,6,8,11,13,15,17,20,22,24,26} // TODO: add valid tiles
 	handTiles := removeDuplicateInt(hands.ungrouped)
 	// remove duplicate + compare to validTiles + len is 4 
-	if checkContained(validTiles, handTiles) && len(handTiles) == 4 {
+	if checkContain(validTiles, handTiles, len(handTiles)) && len(handTiles) == 5 {
 		r.names = append(r.names,"全双刻")
 		r.score += 24
 		r.exceptions = append(r.exceptions,[]int{48, 68, 76}...)
@@ -315,7 +298,7 @@ func 全双刻(hands Hands, r Output) Output {
 }
 
 func 清一色(hands Hands, r Output) Output {
-	samePattern, _ := checkSamePattern(hands.ungrouped)
+	samePattern := checkPattern(extractPattern2List(hands.grouped))
 	if samePattern {
 		r.names = append(r.names,"清一色")
 		r.score += 24
@@ -407,15 +390,20 @@ func 一色三步高(hands Hands, r Output) Output {
 
 func 全带五(hands Hands, r Output) Output {
 	validTiles := []int {5, 14, 23}
-
-	for _, grouped := range hands.grouped {
-		if !checkContained(validTiles, grouped.tiles) {
-			return r
+	fourGroupTiles := hands.grouped[:4]
+	pairGroupTiles := hands.grouped[4]
+	var FourGcount int
+	for _, grouped := range fourGroupTiles {
+		if checkContain(validTiles, grouped.tiles, 1) {
+			FourGcount += 1
 		}
 	}
-	r.names = append(r.names,"全带五")
-	r.score += 16
-	r.exceptions = append(r.exceptions,[]int{68, 76}...)
+	if FourGcount == 4 && checkContain(validTiles, pairGroupTiles.tiles, 2){
+		r.names = append(r.names,"全带五")
+		r.score += 16
+		r.exceptions = append(r.exceptions,[]int{68, 76}...)
+		return r
+	}
 	return r
 }
 
