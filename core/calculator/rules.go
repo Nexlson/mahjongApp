@@ -1,6 +1,6 @@
 package calculator
 
-// import "fmt"
+import "fmt"
 
 // 88 points
 func 大四喜(hands Hands, r Output) Output {
@@ -44,7 +44,7 @@ func 绿一色(hands Hands, r Output) Output {
 	if checkContain(validTiles, handTiles, len(handTiles)) && hands.won {
 		r.names = append(r.names,"绿一色")
 		r.score += 88
-		if ContainedInt(handTiles, 33) {
+		if containedInt(handTiles, 33) {
 			r.exceptions = append(r.exceptions,[]int{49}...)
 		}else {
 			r.exceptions = append(r.exceptions,[]int{49, 22}...)
@@ -613,46 +613,102 @@ func 四归一(hands Hands, r Output) Output {
 }
 
 func 双同刻(hands Hands, r Output) Output {
-// 	name := "双同刻"
-// 	score := 2
+	pongList := extractData(hands.grouped, "pong")
+	for _, pongPrev := range pongList {
+		for _, pongCur := range pongList {
+			if pongPrev != pongCur {
+				if deValue(pongPrev) == deValue(pongCur) {
+					r.names = append(r.names,"双同刻")
+					r.score += 2
+					return r
+				}
+			}
+		}
+		break
+	}
 	return r
 }
 
 func 双暗刻(hands Hands, r Output) Output {
-// 	name := "双暗刻"
-// 	score := 2
+	count := 0 
+	for _, group := range hands.grouped {
+		if !group.open && group.pong {
+			count += 1
+		}
+	}
+	if count == 2 {
+		r.names = append(r.names,"双暗刻")
+		r.score += 2
+		return r
+	}
 	return r
 }
 
 func 暗杠(hands Hands, r Output) Output {
-// 	name := "暗杠"
-// 	score := 2
+	count := 0 
+	for _, group := range hands.grouped {
+		if !group.open && group.kong {
+			count += 1
+		}
+	}
+	if count == 1 {
+		r.names = append(r.names,"暗杠")
+		r.score += 2
+		return r
+	}
 	return r
 }
 
 func 断幺(hands Hands, r Output) Output {
-// 	name := "断幺"
-// 	score := 2
-// 	exceptions := []int{76}
+	validTiles := []int {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34}
+	if !checkAnyTileisInSlice(validTiles, removeDuplicateInt(hands.ungrouped)) {
+		r.names = append(r.names,"断幺")
+		r.score += 2
+		r.exceptions = append(r.exceptions,[]int{76}...)
+		return r
+	}
 	return r
 }
 
 func 一般高(hands Hands, r Output) Output {
 // 	// same pattern same value
-// 	name := "一般高"
-// 	score := 1
+	count := 0
+	for _, chiPrev := range hands.grouped {
+		for _, chiCurrent := range hands.grouped{
+			if sameSlice(chiPrev.tiles, chiCurrent.tiles) && (chiPrev.pattern == chiCurrent.pattern) {
+				count += 1
+				if count >= 2 {
+					r.names = append(r.names,"一般高")
+					r.score += 1
+					return r
+				}
+			}
+		}
+		break
+	}
 	return r
 }
 
 func 喜相逢(hands Hands, r Output) Output {
 // 	// same consecutive but different pattern
-// 	name := "喜相逢"
-// 	score := 1
-// 	handChis := ExtractChi(hands.grouped)
+	for _, chiPrev := range hands.grouped {
+		for _, chiCurrent := range hands.grouped{
+			if !sameSlice(chiPrev.tiles, chiCurrent.tiles) {
+				devaluePrev := deValueGroup(chiPrev.tiles)
+				devalueCurr := deValueGroup(chiCurrent.tiles)
+				if sameSlice(devaluePrev, devalueCurr) && (chiPrev.pattern != chiCurrent.pattern) {
+					r.names = append(r.names,"喜相逢")
+					r.score += 1
+					return r
+				}
+			}
+		}
+		break
+	}
+	fmt.Println("Hello")
 	return r
 }
 
-// TODO: Check again
 func 连六(hands Hands, r Output) Output {
 	handChis := ExtractChi(hands.grouped)
 	if CompareChi(handChis, 1) {
@@ -665,13 +721,15 @@ func 连六(hands Hands, r Output) Output {
 
 func 老少副(hands Hands, r Output) Output {
 	// same pattern of 1 2 3, 7 8 9
-	validTiles := [][]int{{1,2,3,7,8,9}, {10,11,12,16,17,18}, {19,20,21,25,26,27}}
-	hand := removeDuplicateInt(hands.ungrouped)
-	for _, valid := range validTiles {
-		if !checkContained(valid, hand) {
-			r.names = append(r.names,"老少副")
-			r.score += 1
-			return r
+	validTiles := [][]int{{1,2,3},{7,8,9}, {10,11,12},{16,17,18}, {19,20,21},{25,26,27}}
+	chisGroup := ExtractChi(hands.grouped)
+	for _, g := range chisGroup {
+		for _, vt := range validTiles{
+			if checkContain(g, vt, len(g)){
+					r.names = append(r.names,"老少副")
+					r.score += 1
+					return r
+			}
 		}
 	}
 	return r
@@ -681,7 +739,7 @@ func 幺九刻(hands Hands, r Output) Output {
 	// pong of 19 and zhi
 	validTiles := []int {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34}
 	handPongTiles := extractData(hands.grouped, "pong")
-	if !checkContained(validTiles, handPongTiles) {
+	if checkContain(validTiles, handPongTiles, len(handPongTiles)) {
 		r.names = append(r.names,"幺九刻")
 		r.score += 1
 		return r
@@ -720,7 +778,7 @@ func 缺一门(hands Hands, r Output) Output {
 func 无字(hands Hands, r Output) Output {
 	// doesnt contain 字 pattern
 	handPattern := ExtractPatterns(hands.grouped)
-	if !ContainedInt(handPattern, 4){
+	if !containedInt(handPattern, 4){
 		r.names = append(r.names,"无字")
 		r.score += 1
 		return r
@@ -730,10 +788,14 @@ func 无字(hands Hands, r Output) Output {
 
 func 边张(hands Hands, r Output) Output {
 	// winning tile is third of grouped 3 tile 
+	var groupChi bool
 	validPositions := []int{2, 5, 8, 11}
-	validity, groupPosition := GroupOfWinningTile(hands.winnngTile, validPositions)
-	groupChi := hands.grouped[groupPosition].chi
-	// group must be chi
+	validity, groupPosition := containedInt2(validPositions, hands.winnngTile)
+	if groupPosition <=5 {
+		groupChi = hands.grouped[groupPosition].chi
+	}else{
+		groupChi = false
+	}
 	if validity && groupChi{
 		r.names = append(r.names,"边张")
 		r.score += 1
@@ -744,9 +806,14 @@ func 边张(hands Hands, r Output) Output {
 
 func 坎张(hands Hands, r Output) Output {
 	// winning tile is middle of grouped 3 tile 
+	var groupChi bool
 	validPositions := []int{1, 4, 7, 10}
-	validity, groupPosition := GroupOfWinningTile(hands.winnngTile, validPositions)
-	groupChi := hands.grouped[groupPosition].chi
+	validity, groupPosition := containedInt2(validPositions, hands.winnngTile)
+	if groupPosition <=5 {
+		groupChi = hands.grouped[groupPosition].chi
+	}else{
+		groupChi = false
+	}
 	// group must be chi
 	if validity && groupChi{
 		r.names = append(r.names,"坎张")
@@ -759,7 +826,7 @@ func 坎张(hands Hands, r Output) Output {
 func 单钓(hands Hands, r Output) Output {
 	// winning tile is one of the pair
 	validPositions := []int{12, 13}
-	if ContainedInt(validPositions, hands.winnngTile){
+	if containedInt(validPositions, hands.winnngTile){
 		r.names = append(r.names,"单钓")
 		r.score += 1
 		return r

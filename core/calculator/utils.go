@@ -38,6 +38,17 @@ func checkContained(target []int, hand []int) bool {
 	}
 }
 
+func checkAnyTileisInSlice(slice []int, slice2 []int) bool {
+	for _, s := range slice {
+		for _, s2 := range slice2 {
+			if s == s2 {
+				return true
+			}
+		}
+	}
+	return false
+}
+
 // compare two slice and return if slice in hand is available in slice in valid 
 func checkContain(valid []int, hand []int, rule int) bool {
 	count := 0 
@@ -172,7 +183,7 @@ func extractData(hands []TileGroup, mode string) []int{
 	return handTiles
 }
 
-func ContainedInt(slice []int, tile int) bool {
+func containedInt(slice []int, tile int) bool {
 	for _, i := range slice {
 		if tile == i {
 			return true
@@ -181,10 +192,19 @@ func ContainedInt(slice []int, tile int) bool {
 	return false
 }
 
+func containedInt2(slice []int, tile int) (bool, int){
+	for ind, i := range slice {
+		if tile == i {
+			return true, ind
+		}
+	}
+	return false, 6
+}
+
 func GroupOfWinningTile(posWinningTile int, validPositions []int)(bool, int){
 	for _, pos := range validPositions {
 		if pos == posWinningTile {
-			return true, pos
+			return true, pos -1
 		}
 	}
 	return false, 0
@@ -292,4 +312,40 @@ func extractTileStatus(hands []TileGroup, mode string) []bool {
 		}
 	}
 	return status
+}
+
+func deValue(tile int) int {
+	if tile >= 10 && tile <= 18{
+		return tile - 9
+	}else if tile >= 19 && tile <= 27{
+		return tile - 18
+	}else{
+		return tile
+	}
+}
+
+func deValueGroup(slice []int) []int{
+	newSlice := []int{}
+	for _, s := range slice {
+		if s >= 10 && s <= 18{
+			newSlice = append(newSlice, s-9)
+		}else if s >= 19 && s <= 27{
+			newSlice = append(newSlice, s-18)
+		}else{
+			newSlice = append(newSlice, s)
+		}
+	}
+	return newSlice
+}
+
+func sameSlice(slice1 []int, slice2 []int) bool {
+	if len(slice1) != len(slice2) {
+		return false
+	}
+	for i := range slice1 {
+		if slice1[i] != slice2[i] {
+			return false
+		}
+	}
+	return true
 }
