@@ -1297,205 +1297,206 @@ func Test全带五(t *testing.T) {
 // 	}
 // }
 
-// func Test不求人(t *testing.T) {
-// 	// const
-// 	want := 16
-// 	groupedHand := []TileGroup{
-// 		{[]int{3,4,5}, false, false, true, false, false, 1},
-// 		{[]int{4,5,6}, false, false, true, false, false, 1},
-// 		{[]int{13,14,15}, false, false, true, false, false, 2},
-// 		{[]int{14,15,16}, false, false, true, false, false, 2},
-// 		{[]int{23,23}, false, false, false, false, true, 3},
-// 	}
-// 	hands := Hands{
-// 		grouped: groupedHand,
-// 		ungrouped: []int{3,4,5,4,5,6,13,14,15,14,15,16,23,23},
-// 	}
-// 	result := Output{}
+func Test不求人(t *testing.T) {
+	// const
+	want := 4
+	groupedHand := []TileGroup{
+		{[]int{3,4,5}, false, false, false, true, false, 1},
+		{[]int{4,5,6}, false, false, false, true, false, 1},
+		{[]int{13,14,15}, false, false, false, true, false, 2},
+		{[]int{14,15,16}, false, false, false, true, false, 2},
+		{[]int{23,23}, false, false, false, false, true, 3},
+	}
+	hands := Hands{
+		grouped: groupedHand,
+		ungrouped: []int{3,4,5,4,5,6,13,14,15,14,15,16,23,23},
+	}
+	result := Output{}
 
-// 	// test function 
-// 	got = 不求人(hands, result) 
+	// test function 
+	got := 不求人(hands, result) 
 
-// 	// check results
-// 	if got.score != want {
-// 		t.Errorf("Test output %d is not equal to expected output %d", got, want)
-// 	}
-// }
+	// check results
+	if got.score != want {
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
+	}
+}
 
-// func Test双明杠(t *testing.T) {
-// 	// const
-// 	want := 16
-// 	groupedHand := []TileGroup{
-// 		{[]int{3,4,5}, false, false, true, false, false, 1},
-// 		{[]int{4,5,6}, false, false, true, false, false, 1},
-// 		{[]int{13,14,15}, false, false, true, false, false, 2},
-// 		{[]int{14,15,16}, false, false, true, false, false, 2},
-// 		{[]int{23,23}, false, false, false, false, true, 3},
-// 	}
-// 	hands := Hands{
-// 		grouped: groupedHand,
-// 		ungrouped: []int{3,4,5,4,5,6,13,14,15,14,15,16,23,23},
-// 	}
-// 	result := Output{}
+func Test双明杠(t *testing.T) {
+	// const
+	want := 4
+	groupedHand := []TileGroup{
+		{[]int{3,3,3}, true, false, true, false, false, 1},
+		{[]int{4,4,4}, true, false, true, false, false, 1},
+		{[]int{13,14,15}, false, false, false, true, false, 2},
+		{[]int{14,15,16}, false, false, false, true, false, 2},
+		{[]int{23,23}, false, false, false, false, true, 3},
+	}
+	hands := Hands{
+		grouped: groupedHand,
+		ungrouped: []int{3,3,3,4,4,4,13,14,15,14,15,16,23,23},
+	}
+	result := Output{}
 
-// 	// test function 
-// 	got = 双明杠(hands, result) 
+	// test function 
+	got := 双明杠(hands, result) 
 
-// 	// check results
-// 	if got.score != want {
-// 		t.Errorf("Test output %d is not equal to expected output %d", got, want)
-// 	}
-// }
+	// check results
+	if got.score != want {
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
+	}
+}
 
-// func Test箭刻(t *testing.T) {
-// 	// const
-// 	want := 16
-// 	groupedHand := []TileGroup{
-// 		{[]int{3,4,5}, false, false, true, false, false, 1},
-// 		{[]int{4,5,6}, false, false, true, false, false, 1},
-// 		{[]int{13,14,15}, false, false, true, false, false, 2},
-// 		{[]int{14,15,16}, false, false, true, false, false, 2},
-// 		{[]int{23,23}, false, false, false, false, true, 3},
-// 	}
-// 	hands := Hands{
-// 		grouped: groupedHand,
-// 		ungrouped: []int{3,4,5,4,5,6,13,14,15,14,15,16,23,23},
-// 	}
-// 	result := Output{}
+func Test箭刻(t *testing.T) {
+	want := 2
+	groupedHand := []TileGroup{
+		{[]int{33,33,33}, false, true, false, false, false, 4},
+		{[]int{4,5,6}, false, false, false, true, false, 1},
+		{[]int{13,14,15}, false, false, false, true, false, 2},
+		{[]int{14,15,16}, false, false, false, true, false, 2},
+		{[]int{23,23}, false, false, false, false, true, 3},
+	}
+	hands := Hands{
+		grouped: groupedHand,
+		ungrouped: []int{33,33,33,4,5,6,13,14,15,14,15,16,23,23},
+	}
+	result := Output{}
 
-// 	// test function 
-// 	got = 箭刻(hands, result) 
+	// test function 
+	got := 箭刻(hands, result) 
 
-// 	// check results
-// 	if got.score != want {
-// 		t.Errorf("Test output %d is not equal to expected output %d", got, want)
-// 	}
-// }
+	// check results
+	if got.score != want {
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
+	}
+}
 
-// func Test圈风刻(t *testing.T) {
-// 	// const
-// 	want := 16
-// 	groupedHand := []TileGroup{
-// 		{[]int{3,4,5}, false, false, true, false, false, 1},
-// 		{[]int{4,5,6}, false, false, true, false, false, 1},
-// 		{[]int{13,14,15}, false, false, true, false, false, 2},
-// 		{[]int{14,15,16}, false, false, true, false, false, 2},
-// 		{[]int{23,23}, false, false, false, false, true, 3},
-// 	}
-// 	hands := Hands{
-// 		grouped: groupedHand,
-// 		ungrouped: []int{3,4,5,4,5,6,13,14,15,14,15,16,23,23},
-// 	}
-// 	result := Output{}
+func Test圈风刻(t *testing.T) {
+	// const
+	want := 2
+	groupedHand := []TileGroup{
+		{[]int{28,28,28}, false, true, false, false, false, 4},
+		{[]int{30,30,30}, false, true, false, false, false, 4},
+		{[]int{13,14,15}, false, false, false, true, false, 2},
+		{[]int{14,15,16}, false, false, false, true, false, 2},
+		{[]int{23,23}, false, false, false, false, true, 3},
+	}
+	hands := Hands{
+		grouped: groupedHand,
+		ungrouped: []int{28,28,28,30,30,30,13,14,15,14,15,16,23,23},
+		round: 30,
+	}
+	result := Output{}
 
-// 	// test function 
-// 	got = 圈风刻(hands, result) 
+	// test function 
+	got := 圈风刻(hands, result) 
 
-// 	// check results
-// 	if got.score != want {
-// 		t.Errorf("Test output %d is not equal to expected output %d", got, want)
-// 	}
-// }
+	// check results
+	if got.score != want {
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
+	}
+}
 
-// func Test门风刻(t *testing.T) {
-// 	// const
-// 	want := 16
-// 	groupedHand := []TileGroup{
-// 		{[]int{3,4,5}, false, false, true, false, false, 1},
-// 		{[]int{4,5,6}, false, false, true, false, false, 1},
-// 		{[]int{13,14,15}, false, false, true, false, false, 2},
-// 		{[]int{14,15,16}, false, false, true, false, false, 2},
-// 		{[]int{23,23}, false, false, false, false, true, 3},
-// 	}
-// 	hands := Hands{
-// 		grouped: groupedHand,
-// 		ungrouped: []int{3,4,5,4,5,6,13,14,15,14,15,16,23,23},
-// 	}
-// 	result := Output{}
+func Test门风刻(t *testing.T) {
+	// const
+	want := 2
+	groupedHand := []TileGroup{
+		{[]int{28,28,28}, false, true, false, false, false, 4},
+		{[]int{30,30,30}, false, true, false, false, false, 4},
+		{[]int{13,14,15}, false, false, false, true, false, 2},
+		{[]int{14,15,16}, false, false, false, true, false, 2},
+		{[]int{23,23}, false, false, false, false, true, 3},
+	}
+	hands := Hands{
+		grouped: groupedHand,
+		ungrouped: []int{28,28,28,30,30,30,13,14,15,14,15,16,23,23},
+		turn: 28,
+	}
+	result := Output{}
 
-// 	// test function 
-// 	got = 门风刻(hands, result) 
+	// test function 
+	got := 门风刻(hands, result) 
 
-// 	// check results
-// 	if got.score != want {
-// 		t.Errorf("Test output %d is not equal to expected output %d", got, want)
-// 	}
-// }
+	// check results
+	if got.score != want {
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
+	}
+}
 
-// func Test门前清(t *testing.T) {
-// 	// const
-// 	want := 16
-// 	groupedHand := []TileGroup{
-// 		{[]int{3,4,5}, false, false, true, false, false, 1},
-// 		{[]int{4,5,6}, false, false, true, false, false, 1},
-// 		{[]int{13,14,15}, false, false, true, false, false, 2},
-// 		{[]int{14,15,16}, false, false, true, false, false, 2},
-// 		{[]int{23,23}, false, false, false, false, true, 3},
-// 	}
-// 	hands := Hands{
-// 		grouped: groupedHand,
-// 		ungrouped: []int{3,4,5,4,5,6,13,14,15,14,15,16,23,23},
-// 	}
-// 	result := Output{}
+func Test门前清(t *testing.T) {
+	// const
+	want := 2
+	groupedHand := []TileGroup{
+		{[]int{3,4,5}, false, false, false, true, false, 1},
+		{[]int{4,5,6}, false, false, false, true, false, 1},
+		{[]int{13,14,15}, false, false, false, true, false, 2},
+		{[]int{14,15,16}, false, false, false, true, false, 2},
+		{[]int{23,23}, true, false, false, false, true, 3},
+	}
+	hands := Hands{
+		grouped: groupedHand,
+		ungrouped: []int{3,4,5,4,5,6,13,14,15,14,15,16,23,23},
+	}
+	result := Output{}
 
-// 	// test function 
-// 	got = 门前清(hands, result) 
+	// test function 
+	got := 门前清(hands, result) 
 
-// 	// check results
-// 	if got.score != want {
-// 		t.Errorf("Test output %d is not equal to expected output %d", got, want)
-// 	}
-// }
+	// check results
+	if got.score != want {
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
+	}
+}
 
-// func Test平和(t *testing.T) {
-// 	// const
-// 	want := 16
-// 	groupedHand := []TileGroup{
-// 		{[]int{3,4,5}, false, false, true, false, false, 1},
-// 		{[]int{4,5,6}, false, false, true, false, false, 1},
-// 		{[]int{13,14,15}, false, false, true, false, false, 2},
-// 		{[]int{14,15,16}, false, false, true, false, false, 2},
-// 		{[]int{23,23}, false, false, false, false, true, 3},
-// 	}
-// 	hands := Hands{
-// 		grouped: groupedHand,
-// 		ungrouped: []int{3,4,5,4,5,6,13,14,15,14,15,16,23,23},
-// 	}
-// 	result := Output{}
+func Test平和(t *testing.T) {
+	// const
+	want := 2
+	groupedHand := []TileGroup{
+		{[]int{3,4,5}, false, false, false, true, false, 1},
+		{[]int{4,5,6}, false, false, false, true, false, 1},
+		{[]int{13,14,15}, false, false, false, true, false, 2},
+		{[]int{14,15,16}, false, false, false, true, false, 2},
+		{[]int{23,23}, false, false, false, false, true, 3},
+	}
+	hands := Hands{
+		grouped: groupedHand,
+		ungrouped: []int{3,4,5,4,5,6,13,14,15,14,15,16,23,23},
+	}
+	result := Output{}
 
-// 	// test function 
-// 	got = 平和(hands, result) 
+	// test function 
+	got := 平和(hands, result) 
 
-// 	// check results
-// 	if got.score != want {
-// 		t.Errorf("Test output %d is not equal to expected output %d", got, want)
-// 	}
-// }
+	// check results
+	if got.score != want {
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
+	}
+}
 
-// func Test四归一(t *testing.T) {
-// 	// const
-// 	want := 16
-// 	groupedHand := []TileGroup{
-// 		{[]int{3,4,5}, false, false, true, false, false, 1},
-// 		{[]int{4,5,6}, false, false, true, false, false, 1},
-// 		{[]int{13,14,15}, false, false, true, false, false, 2},
-// 		{[]int{14,15,16}, false, false, true, false, false, 2},
-// 		{[]int{23,23}, false, false, false, false, true, 3},
-// 	}
-// 	hands := Hands{
-// 		grouped: groupedHand,
-// 		ungrouped: []int{3,4,5,4,5,6,13,14,15,14,15,16,23,23},
-// 	}
-// 	result := Output{}
+func Test四归一(t *testing.T) {
+	// const
+	want := 2
+	groupedHand := []TileGroup{
+		{[]int{3,4,5}, false, false, false, true, false, 1},
+		{[]int{4,5,6}, false, false, false, true, false, 1},
+		{[]int{13,14,15}, false, false, false, true, false, 2},
+		{[]int{14,15,16}, false, false, false, true, false, 2},
+		{[]int{4,4}, false, false, false, false, true, 1},
+	}
+	hands := Hands{
+		grouped: groupedHand,
+		ungrouped: []int{3,4,5,4,5,6,13,14,15,14,15,16,4,4},
+	}
+	result := Output{}
 
-// 	// test function 
-// 	got = 四归一(hands, result) 
+	// test function 
+	got := 四归一(hands, result) 
 
-// 	// check results
-// 	if got.score != want {
-// 		t.Errorf("Test output %d is not equal to expected output %d", got, want)
-// 	}
-// }
+	// check results
+	if got.score != want {
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
+	}
+}
 
 func Test双同刻(t *testing.T) {
 	// const

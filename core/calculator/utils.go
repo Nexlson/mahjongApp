@@ -302,16 +302,45 @@ func extractTileStatus(hands []TileGroup, mode string) []bool {
 		if mode == "kong" {
 			status = append(status, []bool{group.kong}...)
 		}else if mode == "open" {
-			if group.open == true {
-				status = append(status, []bool{group.open}...)
-			}
+			status = append(status, []bool{group.open}...)
 		}else if mode == "pong" {
 			if group.pong == true {
 				status = append(status, []bool{group.pong}...)
 			}
+		}else if mode == "chi" {
+			status = append(status, []bool{group.chi}...)
 		}
 	}
 	return status
+}
+
+func getCount(slice []int) map[int]int {
+	m := make(map[int]int)
+	for _, s := range slice {
+		m[s]++
+
+	}
+	return m
+}
+
+func getLargestCountTiles(slice []int) (int, int) {
+	larger := 0
+	mapSlice := getCount(slice)
+	for _,v := range mapSlice {
+		if v > larger {
+			larger = v
+		}
+	}
+	return getKeyFromValue(mapSlice, larger), larger
+}
+
+func getKeyFromValue(maps map[int]int, value int) int {
+	for k, v := range maps {
+		if v == value {
+			return k
+		}
+	}
+	return -1
 }
 
 func deValue(tile int) int {

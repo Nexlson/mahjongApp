@@ -6,6 +6,8 @@ type Hands struct {
 	won bool
 	score int
 	winnngTile int // position of winningTile
+	round int // 圈风
+	turn int // 门风
 }
 
 type TileGroup struct {

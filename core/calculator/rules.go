@@ -169,7 +169,7 @@ func 四暗刻(hands Hands, r Output) Output {
 	closedTiles := extractTileStatus(threeTileGroup, "open")
 	pongTiles := extractTileStatus(threeTileGroup, "pong")
 
-	if len(closedTiles) == 0 && len(pongTiles) == 4 && hands.won {
+	if !closedTiles[0] && !closedTiles[1] && !closedTiles[2] && !closedTiles[3] && len(pongTiles) == 4 && hands.won {
 		r.names = append(r.names,"四暗刻")
 		r.score += 64
 		r.exceptions = append(r.exceptions,[]int{48, 56, 62}...)
@@ -560,55 +560,95 @@ func 全带幺(hands Hands, r Output) Output {
 }
 
 func 不求人(hands Hands, r Output) Output {
-// 	name := "不求人"
-// 	score := 4
-// 	exceptions := []int{80}
+	count := 0 
+	for _, group := range hands.grouped {
+		if !group.open {
+			count += 1
+		}
+	}
+	if count == 5 {
+		r.names = append(r.names,"不求人")
+		r.score += 4
+		r.exceptions = append(r.exceptions,[]int{80}...)
+		return r
+	}
 	return r
 }
 
 func 双明杠(hands Hands, r Output) Output {
-// 	name := "双明杠"
-// 	score := 4
+	count := 0 
+	for _, group := range hands.grouped {
+		if group.open && group.kong {
+			count += 1
+		}
+	}
+	if count == 2 {
+		r.names = append(r.names,"双明杠")
+		r.score += 4
+		return r
+	}
 	return r
 }
 
 func 箭刻(hands Hands, r Output) Output {
-// 	name := "箭刻"
-// 	score := 2
-// 	exceptions := []int{73}
+	handPong := extractData(hands.grouped, "pong")
+	validTiles := []int{32,33,34}
+	if checkAnyTileisInSlice(handPong, validTiles) {
+		r.names = append(r.names,"箭刻")
+		r.score += 2
+		r.exceptions = append(r.exceptions,[]int{73}...)
+	}
 	return r
 }
 
 func 圈风刻(hands Hands, r Output) Output {
-// 	name := "圈风刻"
-// 	score := 2
-// 	exceptions := []int{73}
+	handPong := extractData(hands.grouped, "pong")
+	if containedInt(handPong, hands.round) {
+		r.names = append(r.names,"圈风刻")
+		r.score += 2
+		r.exceptions = append(r.exceptions,[]int{73}...)
+	}
 	return r
 }
 
 func 门风刻(hands Hands, r Output) Output {
-// 	name := "门风刻"
-// 	score := 2
-// 	exceptions := []int{73}
+	handPong := extractData(hands.grouped, "pong")
+	if containedInt(handPong, hands.turn) {
+		r.names = append(r.names,"门风刻")
+		r.score += 2
+		r.exceptions = append(r.exceptions,[]int{73}...)
+	}
 	return r
 }
 
 func 门前清(hands Hands, r Output) Output {
-// 	name := "门前清"
-// 	score := 2
+	openStatusList := extractTileStatus(hands.grouped, "open")
+	if !openStatusList[0] && !openStatusList[1] && !openStatusList[2] && !openStatusList[3] && openStatusList[4] {
+		r.names = append(r.names,"门前清")
+		r.score += 2
+	}
 	return r
 }
 
 func 平和(hands Hands, r Output) Output {
-// 	name := "平和"
-// 	score := 2
-// 	exceptions := []int{76}
+	chiStatusList := extractTileStatus(hands.grouped[:4], "chi")
+	if chiStatusList[0] && chiStatusList[1] && chiStatusList[2] && chiStatusList[3] {
+		r.names = append(r.names,"平和")
+		r.score += 2
+		r.exceptions = append(r.exceptions,[]int{76}...)
+		return r
+	}
 	return r
 }
 
 func 四归一(hands Hands, r Output) Output {
-// 	name := "四归一"
-// 	score := 2
+	kongList := extractTileStatus(hands.grouped[:4], "kong")
+	_, largeTileCount := getLargestCountTiles(hands.ungrouped)
+	if !(kongList[0] && kongList[1] && kongList[2] && kongList[3]) && largeTileCount == 4{
+		r.names = append(r.names,"四归一")
+		r.score += 2
+		return r
+	}
 	return r
 }
 
