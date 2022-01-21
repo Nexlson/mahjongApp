@@ -66,21 +66,10 @@ func checkContain(valid []int, hand []int, rule int) bool {
 	}
 }
 
-// check all tiles is same pattern
-func checkSamePattern (tiles []int) (bool, int) {
-	minMax := minMax(tiles)
-	for k, v := range PatternLib {
-		if checkContained(v, minMax){
-			return true, k
-		}
-	}
-	return false, 0
-}
-
 func extractPattern2List (group []TileGroup) []int {
 	patternList := []int{}
 	for _, g := range group {
-		patternList = append(patternList,[]int{g.pattern}...)
+		patternList = append(patternList,[]int{g.Pattern}...)
 	}
 	return patternList
 }
@@ -94,7 +83,7 @@ func checkPattern(list []int) bool {
 	}
 }
 
-// check if group contained chi 
+// check if group contained Chi 
 func checkChi(group []int, c int) bool{
 	count := 0 
 	for _, x := range group {
@@ -109,19 +98,6 @@ func checkChi(group []int, c int) bool{
 	if count == c {
 		return true
 	}else{
-		return false
-	}
-}
-
-// check if group contained pong
-func checkPong(group []int) bool{
-	sum := 0
-	for _, tile := range group {
-		sum += tile
-	}
-	if sum / len(group) == group[0] {
-		return true
-	}else {
 		return false
 	}
 }
@@ -162,21 +138,21 @@ func removeDuplicateInt(intSlice []int) []int {
 func extractData(hands []TileGroup, mode string) []int{
 	handTiles := []int{}
 	for _, g := range hands {
-		if mode == "pong"{
-			if g.pong {
-				handTiles = append(handTiles, []int{g.tiles[0]}...)
+		if mode == "Pong"{
+			if g.Pong {
+				handTiles = append(handTiles, []int{g.Tiles[0]}...)
 			}
-		}else if mode == "kong"{
-			if g.kong {
-				handTiles = append(handTiles, []int{g.tiles[0]}...)
+		}else if mode == "Kong"{
+			if g.Kong {
+				handTiles = append(handTiles, []int{g.Tiles[0]}...)
 			}
-		}else if mode == "pair"{
-			if g.pair {
-				handTiles = append(handTiles, []int{g.tiles[0]}...)
+		}else if mode == "Pair"{
+			if g.Pair {
+				handTiles = append(handTiles, []int{g.Tiles[0]}...)
 			}
 		}else if mode == "close"{
-			if g.open {
-				handTiles = append(handTiles, []int{g.tiles[0]}...)
+			if g.Open {
+				handTiles = append(handTiles, []int{g.Tiles[0]}...)
 			}
 		}
 	}
@@ -202,19 +178,10 @@ func containedInt2(slice []int, tile int) (bool, int){
 	return false, 6
 }
 
-func GroupOfWinningTile(posWinningTile int, validPositions []int)(bool, int){
-	for _, pos := range validPositions {
-		if pos == posWinningTile {
-			return true, pos -1
-		}
-	}
-	return false, 0
-}
-
-func ExtractPatterns(grouped []TileGroup) []int{
+func extractPatterns(grouped []TileGroup) []int{
 	var extracted []int
 	for _, group := range grouped {
-		extracted = append(extracted, group.pattern)
+		extracted = append(extracted, group.Pattern)
 	}
 	return extracted
 }
@@ -222,20 +189,20 @@ func ExtractPatterns(grouped []TileGroup) []int{
 func extractChi(grouped []TileGroup) [][]int {
 	var extracted [][]int
 	for _, group := range grouped {
-		if group.chi {
-			extracted = append(extracted, group.tiles)
+		if group.Chi {
+			extracted = append(extracted, group.Tiles)
 		}
 	}
 	return extracted
 }
 
-func CompareChi(chis [][]int, gap int) bool {
+func compareChi(chis [][]int, gap int) bool {
 	prev := []int{}
-	for _, chi := range chis{
+	for _, Chi := range chis{
 		if len(prev) == 0 {
-			prev = chi
+			prev = Chi
 		}else{
-			if (chi[0] - prev[2] == gap) {
+			if (Chi[0] - prev[2] == gap) {
 				return true
 			}
 		}
@@ -245,55 +212,33 @@ func CompareChi(chis [][]int, gap int) bool {
 
 func checkWon(hand Hands) Hands {
 	var count int 
-	for _, group := range hand.grouped {
-		if group.pong || group.chi {
+	for _, group := range hand.Grouped {
+		if group.Pong || group.Chi || group.Pair{
 			count += 1
 		}
 	}
-	if count == 4 {
-		hand.won = true
+	if count == 5 {
+		hand.Won = true
 		return hand
 	}else {
-		hand.won = false
+		hand.Won = false
 		return hand
 	}
-}
-
-// func CalculateScore(hands Hands) Output{
-// 	finalResult := Output{}
-
-// 	// add initial score
-// 	finalResult.score += hands.score
-
-// 	// check won
-// 	handsTile = checkWon(hands)
-
-// 	// loop all rules 
-// 	for k, v := range RulesMaps{
-// 		if !containedInt(finalResult.exceptions, k){
-// 			finalResult := v.((func(Hands, Output) Output (hands, finalResult))
-// 		}
-// 	}
-// 	return finalResult
-// }
-
-func Hello() string {
-	return "Hello World"
 }
 
 func countStatus(grouped []TileGroup, status string) int{
 	count := 0 
 	for _, group := range grouped {
-		if status == "chi" {
-			if group.chi{
+		if status == "Chi" {
+			if group.Chi{
 				count += 1
 			}
-		}else if status == "pong"{
-			if group.pong{
+		}else if status == "Pong"{
+			if group.Pong{
 				count += 1
 			}
-		}else if status == "pair"{
-			if group.pair{
+		}else if status == "Pair"{
+			if group.Pair{
 				count += 1
 			}
 		}
@@ -304,16 +249,16 @@ func countStatus(grouped []TileGroup, status string) int{
 func extractTileStatus(hands []TileGroup, mode string) []bool {
 	status := []bool {}
 	for _, group := range hands {
-		if mode == "kong" {
-			status = append(status, []bool{group.kong}...)
-		}else if mode == "open" {
-			status = append(status, []bool{group.open}...)
-		}else if mode == "pong" {
-			if group.pong == true {
-				status = append(status, []bool{group.pong}...)
+		if mode == "Kong" {
+			status = append(status, []bool{group.Kong}...)
+		}else if mode == "Open" {
+			status = append(status, []bool{group.Open}...)
+		}else if mode == "Pong" {
+			if group.Pong == true {
+				status = append(status, []bool{group.Pong}...)
 			}
-		}else if mode == "chi" {
-			status = append(status, []bool{group.chi}...)
+		}else if mode == "Chi" {
+			status = append(status, []bool{group.Chi}...)
 		}
 	}
 	return status
@@ -336,7 +281,7 @@ func getLargestCountTiles(slice []int) (int, int) {
 			larger = v
 		}
 	}
-	return getKeyFromValue(mapSlice, larger), larger
+	return getKeyFromValue(mapSlice, larger), larger // key value
 }
 
 func getKeyFromValue(maps map[int]int, value int) int {
@@ -399,12 +344,12 @@ func gapBetweenTile(group []int, gap int) bool{
 }
 
 func special147(hands Hands) bool{
-	for _, x := range hands.grouped {
-		for _, y := range hands.grouped{
-			for _, z := range hands.grouped{
-				if !sameSlice(x.tiles,y.tiles) && !sameSlice(y.tiles,z.tiles) && !sameSlice(x.tiles,z.tiles){
-					if x.pattern != y.pattern && x.pattern != z.pattern && y.pattern != z.pattern {
-						if gapBetweenTile(x.tiles, 3) && gapBetweenTile(y.tiles, 3) && gapBetweenTile(z.tiles, 3) {
+	for _, x := range hands.Grouped {
+		for _, y := range hands.Grouped{
+			for _, z := range hands.Grouped{
+				if !sameSlice(x.Tiles,y.Tiles) && !sameSlice(y.Tiles,z.Tiles) && !sameSlice(x.Tiles,z.Tiles){
+					if x.Pattern != y.Pattern && x.Pattern != z.Pattern && y.Pattern != z.Pattern {
+						if gapBetweenTile(x.Tiles, 3) && gapBetweenTile(y.Tiles, 3) && gapBetweenTile(z.Tiles, 3) {
 							return true
 						}
 					}
@@ -435,10 +380,10 @@ func mergeSlices(slice1 []int, slice2 []int, slice3 []int) []int {
 
 func extractTileGroup (hands Hands, mode string) []TileGroup {
 	var result []TileGroup
-	for _, g := range hands.grouped {
-		if mode == "pair" && g.pair {
+	for _, g := range hands.Grouped {
+		if mode == "Pair" && g.Pair {
 			result = append(result,g)
-		}else if mode == "chi" && g.chi {
+		}else if mode == "Chi" && g.Chi {
 			result = append(result,g)
 		}
 	}
@@ -449,10 +394,10 @@ func check123789(chiList []TileGroup) []int{
 	patternList := []int{}
 	for _, g := range chiList {
 		for _, y := range chiList{
-			if g.pattern == y.pattern && !sameSlice(g.tiles, y.tiles) {
-				merged := append(g.tiles, y.tiles...)
+			if g.Pattern == y.Pattern && !sameSlice(g.Tiles, y.Tiles) {
+				merged := append(g.Tiles, y.Tiles...)
 				if sameSlice(merged, []int{1,2,3,7,8,9}) || sameSlice(merged, []int{10,11,12,16,17,18}) || sameSlice(merged, []int{19,20,21,25,26,27}){
-					patternList = append(patternList,g.pattern)
+					patternList = append(patternList,g.Pattern)
 				}
 			}
 		}
@@ -487,4 +432,22 @@ func checkGap4(slice1 []int, slice2 []int, slice3 []int, slice4 []int) bool{
 	}else{
 		return false
 	}
+}
+
+func CalculateScore(hands Hands) Output{
+	finalResult := Output{}
+
+	// add initial score
+	finalResult.Score += hands.Score
+
+	// check Won
+	handsTile := checkWon(hands)
+	allRules := generateFunctions()
+	// loop all rules 
+	for index, rule := range allRules{
+		if !containedInt(finalResult.Exceptions, index){
+			finalResult = rule(handsTile, finalResult)
+		}
+	}
+	return finalResult
 }
