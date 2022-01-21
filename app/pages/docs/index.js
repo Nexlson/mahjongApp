@@ -1,3 +1,9 @@
 export default function Docs() {
-    return <div>Hello World Docs</div>
+    return (
+        <>
+        <NavBar />
+        <h1>This is some contents for docs page</h1>
+        <Footer/>
+    </>
+    )
 }
