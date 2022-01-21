@@ -1,6 +1,6 @@
 package calculator
 
-import "fmt"
+// import "fmt"
 
 // 88 points
 func 大四喜(hands Hands, r Output) Output {
@@ -112,8 +112,9 @@ func 十三幺(hands Hands, r Output) Output {
 // 64 points
 func 清幺九(hands Hands, r Output) Output {
 	validTiles := []int {1, 9, 10, 18, 19, 27}
+	handTiles := removeDuplicateInt(hands.ungrouped)
 
-	if checkContained(validTiles, removeDuplicateInt(hands.ungrouped)) && hands.won {
+	if checkContain(validTiles, handTiles, len(handTiles)) && hands.won {
 		r.names = append(r.names,"清幺九")
 		r.score += 64
 		r.exceptions = append(r.exceptions,[]int{48, 55, 65, 73, 76}...)
@@ -178,21 +179,29 @@ func 四暗刻(hands Hands, r Output) Output {
 	return r
 }
 
-// func 一色双龙会(hands Hands, r Output) Output {
-// 	samePattern, pattern := checkSamePattern(hands.ungrouped)
-// 	validTiles := PatternLib[pattern]
-// 	validTiles = removeIntFromSlice(validTiles, []int{validTiles[3], validTiles[5]})
-	
-// 	if samePattern && hands.won {
-// 		if checkContained(validTiles, hands.ungrouped){
-// 			r.names = append(r.names,"一色双龙会")
-// 			r.score += 64
-// 			r.exceptions = append(r.exceptions,[]int{19, 22, 63, 69, 72, 76}...)
-// 			return r
-// 		}
-// 	}
-// 	return r
-// }
+func 一色双龙会(hands Hands, r Output) Output {
+	pairList := extractTileGroup(hands, "pair")
+	chiList := extractTileGroup(hands, "chi")
+	check1 :=  sameSlice(deValueGroup(pairList[0].tiles), []int{5,5}) 
+	count123 := 0 
+	count789:= 0 
+	for _, g := range chiList {
+		if sameSlice(g.tiles, []int{1,2,3}){
+			count123 += 1
+		}else if sameSlice(g.tiles, []int{7,8,9}){
+			count789 += 1
+		}
+	}
+
+	if check1 && count123 == 2 && count789 == 2{
+		r.names = append(r.names,"一色双龙会")
+		r.score += 64
+		r.exceptions = append(r.exceptions,[]int{19, 22, 63, 69, 72, 76}...)
+		return r
+	}
+
+	return r
+}
 
 func 一色四同顺(hands Hands, r Output) Output {
 	samePattern := [][]int{}
@@ -974,7 +983,6 @@ func 喜相逢(hands Hands, r Output) Output {
 		}
 		break
 	}
-	fmt.Println("Hello")
 	return r
 }
 

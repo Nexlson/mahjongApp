@@ -184,30 +184,31 @@ func Test十三幺(t *testing.T) {
 	}
 }
 
-// func Test清幺九(t *testing.T) {
-// 	// const
-// 	want := 64
-// 	groupedHand := []TileGroup{
-// 		{[]int{1, 1, 1}, false, true, false, false, false, 1},
-// 		{[]int{9, 9, 9}, false, true, false, false, false, 1},
-// 		{[]int{10, 10, 10}, false, true, false, false, false, 2},
-// 		{[]int{18, 18, 18}, false, true, false, false, false, 2},
-// 		{[]int{19, 19}, false, false, false, false, true, 3},
-// 	}
-// 	hands := Hands{
-// 		grouped: groupedHand,
-// 		ungrouped: []int{1,1,1,9,9,9,10,10,10,18,18,18,19,19},
-// 	}
-// 	result := Output{}
+func Test清幺九(t *testing.T) {
+	// const
+	want := 64
+	groupedHand := []TileGroup{
+		{[]int{1, 1, 1}, false, true, false, false, false, 1},
+		{[]int{9, 9, 9}, false, true, false, false, false, 1},
+		{[]int{10, 10, 10}, false, true, false, false, false, 2},
+		{[]int{18, 18, 18}, false, true, false, false, false, 2},
+		{[]int{19, 19}, false, false, false, false, true, 3},
+	}
+	hands := Hands{
+		grouped: groupedHand,
+		ungrouped: []int{1,1,1,9,9,9,10,10,10,18,18,18,19,19},
+		won : true,
+	}
+	result := Output{}
 
-// 	// test function 
-// 	got = 清幺九(hands, result) 
+	// test function 
+	got := 清幺九(hands, result) 
 
-// 	// check results
-// 	if got.score != want {
-// 		t.Errorf("Test output %d is not equal to expected output %d", got, want)
-// 	}
-// }
+	// check results
+	if got.score != want {
+		t.Errorf("Test output %v is not equal to expected output %v", got.score, want)
+	}
+}
 
 func Test小四喜(t *testing.T) {
 	// const
