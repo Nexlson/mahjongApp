@@ -2,7 +2,6 @@ package calculator
 
 import (
 	"sort"
-	// "fmt"
 )
 
 // get min max of slices

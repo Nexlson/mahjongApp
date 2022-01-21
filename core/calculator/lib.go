@@ -1,7 +1,7 @@
 package calculator
 
 type Hands struct {
-	Grouped []TileGroup
+	Grouped []TileGroup 
 	Ungrouped []int
 	Won bool
 	Score int
