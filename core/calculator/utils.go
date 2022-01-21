@@ -95,7 +95,7 @@ func checkPattern(list []int) bool {
 }
 
 // check if group contained chi 
-func checkChi(group []int) bool{
+func checkChi(group []int, c int) bool{
 	count := 0 
 	for _, x := range group {
 		for _, y := range group{
@@ -106,7 +106,7 @@ func checkChi(group []int) bool{
 			}
 		}
 	}
-	if count == 2 {
+	if count == c {
 		return true
 	}else{
 		return false
@@ -431,4 +431,60 @@ func mergeSlices(slice1 []int, slice2 []int, slice3 []int) []int {
 	slice1 = append(slice1, slice2...)
 	slice1 = append(slice1, slice3...)
 	return slice1
+}
+
+func extractTileGroup (hands Hands, mode string) []TileGroup {
+	var result []TileGroup
+	for _, g := range hands.grouped {
+		if mode == "pair" && g.pair {
+			result = append(result,g)
+		}else if mode == "chi" && g.chi {
+			result = append(result,g)
+		}
+	}
+	return result
+}
+
+func check123789(chiList []TileGroup) []int{
+	patternList := []int{}
+	for _, g := range chiList {
+		for _, y := range chiList{
+			if g.pattern == y.pattern && !sameSlice(g.tiles, y.tiles) {
+				merged := append(g.tiles, y.tiles...)
+				if sameSlice(merged, []int{1,2,3,7,8,9}) || sameSlice(merged, []int{10,11,12,16,17,18}) || sameSlice(merged, []int{19,20,21,25,26,27}){
+					patternList = append(patternList,g.pattern)
+				}
+			}
+		}
+	}
+	return patternList
+}
+
+func checkGap(slice1 []int, slice2 []int, slice3 []int) bool{
+	a := deValueGroup(slice1)
+	b := deValueGroup(slice2)
+	c := deValueGroup(slice3)
+
+	if a[len(a)-1] == b[0] && b[len(b)-1] == c[0]{
+		return true
+	}else if  a[len(a)-1] == (b[0] + 1) && b[len(b)-1] == (c[0] + 1) {
+		return true
+	}else{
+		return false
+	}
+}
+
+func checkGap4(slice1 []int, slice2 []int, slice3 []int, slice4 []int) bool{
+	a := deValueGroup(slice1)
+	b := deValueGroup(slice2)
+	c := deValueGroup(slice3)
+	d := deValueGroup(slice4)
+
+	if a[len(a)-1] == b[0] && b[len(b)-1] == c[0] && c[len(c)-1] == d[0]{
+		return true
+	}else if  a[len(a)-1] == (b[0] + 1) && b[len(b)-1] == (c[0] + 1) && c[len(c)-1] == (d[0] + 1){
+		return true
+	}else{
+		return false
+	}
 }
