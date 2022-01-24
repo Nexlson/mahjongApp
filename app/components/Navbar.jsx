@@ -16,9 +16,9 @@ export default function Navbar() {
                         <Button color="inherit" href="/"><Typography variant="body1">Mahjong App</Typography></Button>
                     </Grid>
                     <Grid container sx={{justifyContent: "flex-end", alignItems: "flex-end"}}>
-                        <Button color="inherit" variant="text" href="/"><Typography>Logger</Typography></Button>
-                        <Button color="inherit" variant="text" href="/calculator"><Typography>Calculator</Typography></Button>
-                        <Button color="inherit" variant="text" href="/docs"><Typography>Docs</Typography></Button>
+                        <Button color="inherit" variant="text" href="/"><Typography><strong>Logger</strong></Typography></Button>
+                        <Button color="inherit" variant="text" href="/calculator"><Typography><strong>Calculator</strong></Typography></Button>
+                        <Button color="inherit" variant="text" href="/docs"><Typography><strong>Docs</strong></Typography></Button>
                     </Grid>
                 </Toolbar>
             </AppBar>

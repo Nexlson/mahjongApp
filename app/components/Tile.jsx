@@ -1,4 +1,5 @@
-import Image from 'next/image'
+// import Image from 'next/image'
+import Image from 'material-ui-image'
 
 export default function Tile(props) {
     const imageClick = (id) => {

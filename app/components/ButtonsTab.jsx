@@ -14,6 +14,7 @@ export default function ButtonsTab(props) {
 
     const clearTiles = () => {
         props.setTile([])
+        props.setResult([])
     }
 
     const checkPong = arr => arr.every( v => v === arr[0] )
@@ -66,37 +67,36 @@ export default function ButtonsTab(props) {
             return 
         }
 
-        // URL = "https://localhost:3500/api/v1/calculator"
-            // let group1 = props.tiles.slice(0, 3)
-            // let group2 = props.tiles.slice(3, 6)
-            // let group3 = props.tiles.slice(6, 9)
-            // let group4 = props.tiles.slice(9, 12)
-            // let group5 = props.tiles.slice(12, 14)
-        // let data = {
-        //     "Grouped": [
-        //         [group1, props.openStatus1, checkPong(group1), props.kongStatus1, checkChi(group1), false, checkPattern(group1)],
-        //         [group2, props.openStatus2, checkPong(group2), props.kongStatus2, checkChi(group2), false, checkPattern(group2)],
-        //         [group3, props.openStatus3, checkPong(group3), props.kongStatus3, checkChi(group3), false, checkPattern(group3)],
-        //         [group4, props.openStatus4, checkPong(group4), props.kongStatus4, checkChi(group4), false, checkPattern(group4)],
-        //         [group5, props.openStatus5, false, false, false, checkPong(group5), checkPattern(group5)]
-        //     ],
-        //     "Ungrouped": props.tiles,
-        //     "Won": false
-        // }
-        // // to Json
-        // data = JSON.parse(data)
-        // // send to back end
-        // axios({
-        //     method: "POST",
-        //     url: URL,
-        //     data: {
-        //         data
-        //     }
-        // })
-        // .then(data=> console.log(data))
-        // .catch(err=> console.log(err))
+        let group1 = props.tiles.slice(0, 3)
+        let group2 = props.tiles.slice(3, 6)
+        let group3 = props.tiles.slice(6, 9)
+        let group4 = props.tiles.slice(9, 12)
+        let group5 = props.tiles.slice(12, 14)
+        let data = {
+            "Grouped": [
+                {"Tiles":group1, "Open":props.openStatus1, "Pong":checkPong(group1), "Kong":props.kongStatus1, "Chi":checkChi(group1), "Pair":false, "Pattern":checkPattern(group1)},
+                {"Tiles":group2, "Open":props.openStatus2, "Pong":checkPong(group2), "Kong":props.kongStatus2, "Chi":checkChi(group2), "Pair":false, "Pattern":checkPattern(group2)},
+                {"Tiles":group3, "Open":props.openStatus3, "Pong":checkPong(group3), "Kong":props.kongStatus3, "Chi":checkChi(group3), "Pair":false, "Pattern":checkPattern(group3)},
+                {"Tiles":group4, "Open":props.openStatus4, "Pong":checkPong(group4), "Kong":props.kongStatus4, "Chi":checkChi(group4), "Pair":false, "Pattern":checkPattern(group4)},
+                {"Tiles":group5, "Open":props.openStatus5, "Pong":false, "Kong":false, "Chi":false, "Pair":checkPong(group5), "Pattern":checkPattern(group5)}
+            ],
+            "Ungrouped": props.tiles,
+            "Won": false
+        }
 
-        console.log("Calculate Now")
+        // send to back end
+        axios({
+            method: "POST",
+            url: "http://localhost:3500/api/v1/calculator",
+            data: data
+        })
+        .then(data=> {
+            let result = data.data.result
+            props.setResult(result)
+        })
+        .catch(err=> console.log(err))
+
+
     }
 
     return (

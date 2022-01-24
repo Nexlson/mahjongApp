@@ -7,6 +7,7 @@ import ButtonsTab from '../../components/ButtonsTab'
 import StatusTab from '../../components/StatusTab'
 import { useState, useEffect } from "react";
 import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 export default function Calculator() {
     const [result, setResult] = useState([])
@@ -21,12 +22,6 @@ export default function Calculator() {
     const [kongStatus3, setKongStatus3] = useState(false)
     const [kongStatus4, setKongStatus4] = useState(false)
     const [alert, setAlert] = useState(false)
-
-    useEffect(() => {
-        setTimeout(() => {
-          setAlert(false);
-        }, 3000);
-      }, []);  
 
     function padList() {
         let newTileList = tilesList
@@ -44,6 +39,12 @@ export default function Calculator() {
             {
                 alert ? <Alert severity="error">Missing tiles — check again!</Alert> : <></>
             }
+            {
+                result.length != 0 ? <Alert severity="success">
+                <AlertTitle>You Have Won!</AlertTitle>
+                Total Score is {result.Score} <strong>[{result.Names}]</strong>
+              </Alert> : <></>
+            }
             <Grid container sx={{pt: 10}}>
                 <Grid item sm={3}>
                     <StatusTab openStatus1={openStatus1} setOpenStatus1={setOpenStatus1} openStatus2={openStatus2} setOpenStatus2={setOpenStatus2}
@@ -59,7 +60,7 @@ export default function Calculator() {
                 <Grid item sm={3}>
                     <ButtonsTab tiles={tilesList} setTile={setTile} openStatus1={openStatus1} openStatus2={openStatus2} openStatus3={openStatus3}  
                         openStatus4={openStatus4} openStatus5={openStatus5}  kongStatus1={kongStatus1} kongStatus2={kongStatus2}  
-                        kongStatus3={kongStatus3} kongStatus4={kongStatus4} alert={alert} setAlert={setAlert}
+                        kongStatus3={kongStatus3} kongStatus4={kongStatus4} alert={alert} setAlert={setAlert} setResult={setResult}
                     />
                 </Grid>
             </Grid>

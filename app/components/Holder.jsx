@@ -1,4 +1,6 @@
 import Image from 'next/image'
+// import Image from 'material-ui-image'
+
 
 export default function Holder(props) {
     return(
