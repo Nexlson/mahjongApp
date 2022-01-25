@@ -1,0 +1,13 @@
+.holder {
+    margin: 5px 5px;
+}
+
+@media (max-width: 500px) {
+    .holder {
+        width: 40px !important;
+        height: 60px !important;
+        margin: 5px 5px;
+        padding: 0 !important;
+    }
+}
+

@@ -14,7 +14,7 @@ export default function HolderGroup(props) {
         <>  
             {
                 holderList.map((holder, i) => (
-                    <Grid container spacing={{ xs: 2, md: 3 }} direction="row" justifyContent="center" alignItems="center" key={i}>
+                    <Grid container direction="row" justifyContent="center" alignItems="center" key={i}>
                     {holder.map((hold, index) => (
                         <Grid item key={index}>
                             <Holder id={hold} image={props.tiles}/>

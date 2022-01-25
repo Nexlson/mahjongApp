@@ -1,0 +1,19 @@
+
+.statusTab{
+    margin-left: 15vw;
+    padding-top: 10px;
+}
+
+@media (max-width: 500px) {
+    .statusTab{
+        padding-top: 15px;
+        margin-bottom: 20px;
+        margin-left: 0;
+    }
+
+    .statusButton{
+        min-width: 5px;
+        margin: 0 10px 5px !important;
+        font-size: 10px;
+    }
+}

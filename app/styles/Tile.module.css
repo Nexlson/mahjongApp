@@ -1,0 +1,21 @@
+.tile {
+        margin: 5px 5px;
+}
+
+.tile:active {
+    animation-name: selectTile;
+    animation-duration: 1s;
+}
+
+@keyframes selectTile {
+    from {width: 40px;}
+    to {width: 50px;}
+  }
+
+@media (max-width: 500px) {
+    .tile {
+        width: 40px;
+        height: 40px;
+    }
+}
+

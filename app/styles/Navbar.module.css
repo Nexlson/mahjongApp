@@ -1,0 +1,30 @@
+.title{
+    width: 15vw;
+}
+
+.text{
+    font-family: Roboto;
+}
+
+.button{
+    width: 10vw;
+    font-size: 1vw;
+    margin-left: 5px;
+    font-family: Roboto;
+}
+  
+@media (max-width: 500px) {
+    .title{
+        width: 10vw;
+    }
+    .text{
+        font-size: 2vw;
+        display: None;
+    }
+    .button{
+        width: 2vw;
+        font-size: 2vw;
+        margin-left: 5px;
+        font-family: Roboto;
+    }
+}

@@ -4,21 +4,24 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import styles from '../styles/Navbar.module.css'
 
 export default function Navbar() {
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" color="default">
                 <Toolbar>
-                    <Grid container sx={{flexGrow: 1}}>
-                        <Image src="/mahjong.ico" alt="Mahjong Logo" width={30} height={20}/>
-                        <Button color="inherit" href="/"><Typography variant="body1">Mahjong App</Typography></Button>
+                    <Grid container sx={{flexGrow: 1}} className={styles.title}>
+                        <a href="/"><Image src="/mahjong.ico" alt="Mahjong Logo" width={35} height={35}/></a>
                     </Grid>
-                    <Grid container sx={{justifyContent: "flex-end", alignItems: "flex-end"}}>
-                        <Button color="inherit" variant="text" href="/"><Typography><strong>Logger</strong></Typography></Button>
-                        <Button color="inherit" variant="text" href="/calculator"><Typography><strong>Calculator</strong></Typography></Button>
-                        <Button color="inherit" variant="text" href="/docs"><Typography><strong>Docs</strong></Typography></Button>
+                    <Grid container direction="row" sx={{justifyContent: "flex-end", alignItems: "flex-end"}}>
+                        <Grid item>
+                            <Button color="inherit" variant="contained" href="/" color={"secondary"} className={styles.button}><strong>Logger</strong></Button>
+                        </Grid>
+                        <Grid item>
+                            <Button color="inherit" variant="contained" href="/calculator" color={"secondary"} className={styles.button}><strong>Calculator</strong></Button>
+                        </Grid>
+                        <Button color="inherit" variant="contained" href="/docs" color={"secondary"} className={styles.button}><strong>Docs</strong></Button>
                     </Grid>
                 </Toolbar>
             </AppBar>
