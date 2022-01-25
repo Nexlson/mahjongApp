@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/Nexlson/mahjongApp/backend/calculator"
-	"fmt"
+	// "fmt"
 )
 
 func CORSMiddleware() gin.HandlerFunc {
@@ -54,8 +54,6 @@ func calculate(c *gin.Context) {
 	// define and bind data
 	var playerHand calculator.Hands
 	c.Bind(&playerHand)
-
-	fmt.Println(playerHand)
 
 	// calculate
 	result := calculator.CalculateScore(playerHand)
