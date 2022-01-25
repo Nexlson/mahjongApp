@@ -6,7 +6,6 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
 import range from './utils'
-import styles from '../styles/ButtonTab.module.css'
 
 export default function ButtonsTab(props) {
     const deleteTile = () => {
@@ -103,18 +102,18 @@ export default function ButtonsTab(props) {
     return (
         <>
             <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-                <Button variant="contained" className={styles.button} disabled endIcon={<CameraAltIcon />}> 
+                <Button variant="contained" className="buttonTab" disabled endIcon={<CameraAltIcon />}> 
                 </Button>
 
-                <Button variant="contained" className={styles.button} endIcon={<DeleteIcon />} onClick={() => deleteTile()}>
-                </Button>
-
-
-                <Button variant="contained" className={styles.button} endIcon={<RemoveIcon />} onClick={() => clearTiles()}>
+                <Button variant="contained" className="buttonTab" endIcon={<DeleteIcon />} onClick={() => deleteTile()}>
                 </Button>
 
 
-                <Button variant="contained" className={styles.button} endIcon={<CalculateIcon />} onClick={() => calculateTiles()}>
+                <Button variant="contained" className="buttonTab" endIcon={<RemoveIcon />} onClick={() => clearTiles()}>
+                </Button>
+
+
+                <Button variant="contained" className="buttonTab" endIcon={<CalculateIcon />} onClick={() => calculateTiles()}>
                 </Button>
             </Grid>
         </>

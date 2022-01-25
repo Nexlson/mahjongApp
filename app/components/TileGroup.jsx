@@ -1,7 +1,5 @@
 import Tile from './Tile'
 import range from './utils'
-import Grid from '@mui/material/Grid'
-import styles from '../styles/TileGroup.module.css'
 
 export default function TileGroup(props) {
     const tilesRow1 = range(1, 9);
@@ -15,13 +13,7 @@ export default function TileGroup(props) {
         <>
             {
                 tiles.map((tile, index) => (
-                    // <Grid container direction="row" justifyContent="center" alignItems="center" key={index} className={styles.tileGroup}>
-                    // {row.map((tile, i) => (
-                        // <Grid item key={index}> 
-                            <Tile id={tile} key={index} setTiles={props.setTile} tiles={props.tiles}/>
-                        // </Grid>
-                    // ))}
-                // </Grid>
+                    <Tile id={tile} key={index} setTiles={props.setTile} tiles={props.tiles}/>
                 ))
             }
         </>

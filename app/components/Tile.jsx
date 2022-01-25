@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import styles from '../styles/Tile.module.css'
 
 export default function Tile(props) {
     const imageClick = (id) => {
@@ -7,7 +6,7 @@ export default function Tile(props) {
     }
 
     return(
-        <div className={styles.tile}>
+        <div className="tile">
             <Image src={"/tiles/"+props.id+".jpg"} alt={"Tile"+props.id} width={80} height={80} onClick={()=> imageClick(props.id)}/>
         </div>
     )
