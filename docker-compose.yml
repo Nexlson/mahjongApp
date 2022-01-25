@@ -1,0 +1,9 @@
+services:
+  backend:
+    image: mahjongback
+    ports:
+      - "3500:3500"
+  frontend:
+    image: mahjongfront
+    ports: 
+      - "3000:3000"
