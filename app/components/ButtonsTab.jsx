@@ -88,7 +88,7 @@ export default function ButtonsTab(props) {
         // send to back end
         axios({
             method: "POST",
-            url: "http://localhost/api/v1/calculator",
+            url: "http://143.244.151.135:3500/api/v1/calculator",
             data: data
         })
         .then(data=> {
