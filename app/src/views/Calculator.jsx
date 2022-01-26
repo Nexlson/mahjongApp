@@ -1,5 +1,4 @@
 import Navbar from "../components/Navbar"
-import Footer from "../components/Footer"
 import Grid from '@mui/material/Grid'
 import HolderGroup from "../components/HolderGroup"
 import StatusTab from "../components/StatusTab"
@@ -83,8 +82,6 @@ export default function Calculator(){
             <Grid container direction="column" justifyContent="center" alignItems="center">
                 <TileGroup setTile={setTile} tiles={tilesList}/>
             </Grid>
-
-            <Footer />
         </>
     )
 }

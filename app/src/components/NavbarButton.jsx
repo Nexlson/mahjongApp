@@ -7,6 +7,7 @@ const NavButton = styled(Button)`
     font-size: 1vw;
     margin-left: 5px;
     font-family: Roboto;
+    heigth: 8vw;
 
     @media (max-width: 500px) {
         width: 2vw;
