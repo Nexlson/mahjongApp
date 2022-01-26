@@ -1,29 +1,49 @@
 import Image from 'next/image'
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Toolbar from '@mui/material/Toolbar';
 import Grid from '@mui/material/Grid';
+import styled from 'styled-components';
+
+const Title = styled(Grid)`
+    width: 15vw;
+
+    @media (max-width: 500px) {
+        width: 10vw;
+    }
+`
+
+const NavButton = styled(Button)`
+    width: 8vw;
+    font-size: 1vw;
+    margin-left: 5px;
+    font-family: Roboto;
+
+    @media (max-width: 500px) {
+        width: 2vw;
+        font-size: 2vw;
+        margin-left: 5px;
+        font-family: Roboto;
+      }
+`
 
 export default function Navbar() {
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" color="default">
-                <Toolbar>
-                    <Grid container sx={{flexGrow: 1}} className="title">
-                        <a href="/"><Image src="/mahjong.ico" alt="Mahjong Logo" width={35} height={35}/></a>
+        <AppBar position="static" color="default">
+            <Toolbar>
+                <Title container sx={{flexGrow: 1}}>
+                    <a href="/"><Image src="/mahjong.ico" alt="Mahjong Logo" width={35} height={35}/></a>
+                </Title>
+                <Grid container direction="row" sx={{justifyContent: "flex-end", alignItems: "flex-end"}}>
+                    <Grid item>
+                        <NavButton color="inherit" variant="contained" href="/" color={"secondary"}><strong>Logger</strong></NavButton>
                     </Grid>
-                    <Grid container direction="row" sx={{justifyContent: "flex-end", alignItems: "flex-end"}}>
-                        <Grid item>
-                            <Button color="inherit" variant="contained" href="/" color={"secondary"} className="button"><strong>Logger</strong></Button>
-                        </Grid>
-                        <Grid item>
-                            <Button color="inherit" variant="contained" href="/calculator" color={"secondary"} className="button"><strong>Calculator</strong></Button>
-                        </Grid>
-                        <Button color="inherit" variant="contained" href="/docs" color={"secondary"} className="button"><strong>Docs</strong></Button>
+                    <Grid item>
+                        <NavButton color="inherit" variant="contained" href="/calculator" color={"secondary"}><strong>Calculator</strong></NavButton>
                     </Grid>
-                </Toolbar>
-            </AppBar>
-        </Box>
+                    <NavButton color="inherit" variant="contained" href="/docs" color={"secondary"}><strong>Docs</strong></NavButton>
+                </Grid>
+            </Toolbar>
+        </AppBar>
     )
 }

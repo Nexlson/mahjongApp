@@ -6,6 +6,28 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
 import range from './utils'
+import styled from 'styled-components';
+
+const ButtonTab = styled(Button)`
+    margin: 20px 20px;
+
+    span {
+        margin-left: 0px;
+    }
+
+    @media (max-width: 500px) {
+        width: 5px !important;
+        height: 30px !important;
+        margin-bottom: 10px;
+        margin-left: 13px;
+        justify-items: center;
+
+      
+        span {
+            margin-left: 0px;
+        }
+    }
+`
 
 export default function ButtonsTab(props) {
     const deleteTile = () => {
@@ -102,19 +124,19 @@ export default function ButtonsTab(props) {
     return (
         <>
             <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-                <Button variant="contained" className="buttonTab" disabled endIcon={<CameraAltIcon />}> 
-                </Button>
+                <ButtonTab variant="contained" disabled endIcon={<CameraAltIcon />}> 
+                </ButtonTab>
 
-                <Button variant="contained" className="buttonTab" endIcon={<DeleteIcon />} onClick={() => deleteTile()}>
-                </Button>
-
-
-                <Button variant="contained" className="buttonTab" endIcon={<RemoveIcon />} onClick={() => clearTiles()}>
-                </Button>
+                <ButtonTab variant="contained" endIcon={<DeleteIcon />} onClick={() => deleteTile()}>
+                </ButtonTab>
 
 
-                <Button variant="contained" className="buttonTab" endIcon={<CalculateIcon />} onClick={() => calculateTiles()}>
-                </Button>
+                <ButtonTab variant="contained" endIcon={<RemoveIcon />} onClick={() => clearTiles()}>
+                </ButtonTab>
+
+
+                <ButtonTab variant="contained" endIcon={<CalculateIcon />} onClick={() => calculateTiles()}>
+                </ButtonTab>
             </Grid>
         </>
     )

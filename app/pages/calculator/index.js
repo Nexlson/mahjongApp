@@ -8,6 +8,17 @@ import StatusTab from '../../components/StatusTab'
 import { useState, useEffect } from "react";
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import styled from 'styled-components';
+
+const TileHolders = styled(Grid)`
+    margin-top: 20px !important;
+`
+
+const UpperHolders = styled(Grid)`
+    @media (max-width: 500px) {
+        margin-left: 20px;
+    }
+`
 
 export default function Calculator() {
     const [result, setResult] = useState([])
@@ -45,7 +56,7 @@ export default function Calculator() {
                 Total Score is {result.Score} <strong>[{result.Names}]</strong>
               </Alert> : <></>
             }
-            <Grid container sx={{pt: 10}} className="upperHolders">
+            <UpperHolders container sx={{pt: 10}}>
                 <Grid item sm={3}>
                     <StatusTab openStatus1={openStatus1} setOpenStatus1={setOpenStatus1} openStatus2={openStatus2} setOpenStatus2={setOpenStatus2}
                         openStatus3={openStatus3} setOpenStatus3={setOpenStatus3} openStatus4={openStatus4} setOpenStatus4={setOpenStatus4}
@@ -63,11 +74,11 @@ export default function Calculator() {
                         kongStatus3={kongStatus3} kongStatus4={kongStatus4} alert={alert} setAlert={setAlert} setResult={setResult}
                     />
                 </Grid>
-            </Grid>
+            </UpperHolders>
         
-            <Grid container className="tileHolders" direction="row" justifyContent="center" alignItems="center">
+            <TileHolders container direction="row" justifyContent="center" alignItems="center">
                 <TileGroup setTile={setTile} tiles={tilesList}/>
-            </Grid>
+            </TileHolders>
             <Footer />
         </>
     )
