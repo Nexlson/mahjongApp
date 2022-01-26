@@ -11,6 +11,7 @@ const FooterTab = styled.footer`
     position: fixed;
     bottom: 0;
     width: 100%;
+    margin-top: 100px;
 
     a {
         display: flex;
