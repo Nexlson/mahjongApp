@@ -5,7 +5,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
-import range from './utils'
+import { deleteTile, clearTiles, checkPong, checkPattern, checkChi } from '../utils/functions'
+import { backendURL } from '../utils/defaults'
 import styled from 'styled-components';
 
 const ButtonTab = styled(Button)`
@@ -30,65 +31,18 @@ const ButtonTab = styled(Button)`
 `
 
 export default function ButtonsTab(props) {
-    const deleteTile = () => {
-        props.setTile(props.tiles.slice(0, -1))
-    }
-
-    const clearTiles = () => {
-        props.setTile([])
-        props.setResult([])
-    }
-
-    const checkPong = arr => arr.every( v => v === arr[0] )
-
-    function checkChi(array) {
-        var i = 2, d;
-        while (i < array.length) {
-            d = array[i - 1] - array[i - 2];
-            if (Math.abs(d) === 1 && d === array[i] - array[i - 1]) {
-                return true;
-            }
-            i++;
-        }
-        return false;
-    }
-
-    function onlyUnique(value, index, self) {
-        return self.indexOf(value) === index;
-      }
-
-    function checkPattern(arr) {
-        // remove duplicates in arr
-        let removed = arr.filter(onlyUnique)
-
-        // check which pattern class
-        let pattern1 = range(1,9)
-        let pattern2 = range(10,18)
-        let pattern3 = range(19, 27)
-        let pattern4 = range(28, 31)
-        let pattern5 = range(32,34)
-
-        if(removed.every(r => pattern1.includes(r))){
-            return 1
-        }else if(removed.every(r => pattern2.includes(r))){
-            return 2
-        }else if(removed.every(r => pattern3.includes(r))){
-            return 3
-        }else if(removed.every(r => pattern4.includes(r))){
-            return 4
-        }else if(removed.every(r => pattern5.includes(r))){
-            return 5
-        }else{
-            return 6
-        }
-    }
 
     const calculateTiles = () => {
         if (props.tiles.length < 14){
-            props.setAlert(true)
+            props.setAlert("Missing tiles, please try again!")
             return 
         }
 
+        if (props.winningTile === 0) {
+            props.setAlert("Missing winning tiles, please try again!")
+            return
+        }
+    
         let group1 = props.tiles.slice(0, 3)
         let group2 = props.tiles.slice(3, 6)
         let group3 = props.tiles.slice(6, 9)
@@ -103,13 +57,15 @@ export default function ButtonsTab(props) {
                 {"Tiles":group5, "Open":props.openStatus5, "Pong":false, "Kong":false, "Chi":false, "Pair":checkPong(group5), "Pattern":checkPattern(group5)}
             ],
             "Ungrouped": props.tiles,
-            "Won": false
+            "Won": false,
+            "WiningTile": props.winningTile - 1,
         }
-
+        
+        console.log(data)
         // send to back end
         axios({
             method: "POST",
-            url: "http://143.244.151.135:3500/api/v1/calculator",
+            url: backendURL,
             data: data
         })
         .then(data=> {
@@ -117,26 +73,15 @@ export default function ButtonsTab(props) {
             props.setResult(result)
         })
         .catch(err=> console.log(err))
-
-
     }
 
     return (
         <>
             <Grid container direction="column" justifyContent="center" alignItems="flex-start">
-                <ButtonTab variant="contained" disabled endIcon={<CameraAltIcon />}> 
-                </ButtonTab>
-
-                <ButtonTab variant="contained" endIcon={<DeleteIcon />} onClick={() => deleteTile()}>
-                </ButtonTab>
-
-
-                <ButtonTab variant="contained" endIcon={<RemoveIcon />} onClick={() => clearTiles()}>
-                </ButtonTab>
-
-
-                <ButtonTab variant="contained" endIcon={<CalculateIcon />} onClick={() => calculateTiles()}>
-                </ButtonTab>
+                <ButtonTab variant="contained" disabled endIcon={<CameraAltIcon />} />
+                <ButtonTab variant="contained" endIcon={<DeleteIcon />} onClick={() => deleteTile(props.tiles, props.setTile)} />
+                <ButtonTab variant="contained" endIcon={<RemoveIcon />} onClick={() => clearTiles(props.setTile, props.setResult)} />
+                <ButtonTab variant="contained" endIcon={<CalculateIcon />} onClick={() => calculateTiles()} />
             </Grid>
         </>
     )

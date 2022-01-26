@@ -1,11 +1,9 @@
-import Image from 'next/image'
 import Grid from '@mui/material/Grid';
 import styled from 'styled-components';
 
 const FooterTab = styled.footer`
     display: flex;
     flex: 1;
-    border-top: 1px solid #eaeaea;
     justify-content: center;
     align-items: center;
     position: fixed;
@@ -18,6 +16,8 @@ const FooterTab = styled.footer`
         justify-content: center;
         align-items: center;
         flex-grow: 1;
+        color: black;
+        text-decoration: none;
     }
       
     p {
@@ -28,7 +28,6 @@ const FooterTab = styled.footer`
     @media (max-width: 500px) {
         display: flex;
         flex: 1;
-        border-top: 1px solid #eaeaea;
         justify-content: center;
         align-items: center;
         position: fixed;
@@ -62,7 +61,7 @@ export default function Footer() {
                 >
                 <p>Built by Nexlson</p> {' '}
                 <span className="logo">
-                    <Image src="/github.ico" alt="Github Logo" width={16} height={16} />
+                    <img src="/github.ico" alt="Github Logo" width={16} height={16} />
                 </span>
             </a>
         </FooterTab>
