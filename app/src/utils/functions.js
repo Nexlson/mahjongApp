@@ -7,9 +7,18 @@ export const deleteTile = (tiles, setTile) => {
     setTile(tiles.slice(0, -1))
 }
 
-export const clearTiles = (setTile, setResult) => {
+export const clearTiles = (setTile, setResult, setOpen1, setOpen2, setOpen3, setOpen4, setOpen5, setKong1, setKong2, setKong3, setKong4) => {
     setTile([])
     setResult([])
+    setOpen1(false)
+    setOpen2(false)
+    setOpen3(false)
+    setOpen4(false)
+    setOpen5(false)
+    setKong1(false)
+    setKong2(false)
+    setKong3(false)
+    setKong4(false)
 }
 
 export const checkPong = arr => arr.every( v => v === arr[0] )

@@ -72,9 +72,12 @@ export default function Calculator(){
                 </Grid>
                 
                 <Grid item sm={3}>
-                    <ButtonsTab tiles={tilesList} setTile={setTile} openStatus1={openStatus1} openStatus2={openStatus2} openStatus3={openStatus3}  
-                        openStatus4={openStatus4} openStatus5={openStatus5}  kongStatus1={kongStatus1} kongStatus2={kongStatus2}  
-                        kongStatus3={kongStatus3} kongStatus4={kongStatus4} alert={alert} setAlert={setAlert} setResult={setResult} winningTile={winningTile}
+                    <ButtonsTab tiles={tilesList} setTile={setTile} alert={alert} setAlert={setAlert} setResult={setResult} winningTile={winningTile} 
+                        openStatus1={openStatus1} setOpenStatus1={setOpenStatus1} openStatus2={openStatus2} setOpenStatus2={setOpenStatus2}
+                        openStatus3={openStatus3} setOpenStatus3={setOpenStatus3} openStatus4={openStatus4} setOpenStatus4={setOpenStatus4}
+                        openStatus5={openStatus5} setOpenStatus5={setOpenStatus5} kongStatus1={kongStatus1} setKongStatus1={setKongStatus1}
+                        kongStatus2={kongStatus2} setKongStatus2={setKongStatus2} kongStatus3={kongStatus3} setKongStatus3={setKongStatus3}
+                        kongStatus4={kongStatus4} setKongStatus4={setKongStatus4}
                     />
                 </Grid>
             </UpperHolders>

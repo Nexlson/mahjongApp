@@ -61,7 +61,6 @@ export default function ButtonsTab(props) {
             "WiningTile": props.winningTile - 1,
         }
         
-        console.log(data)
         // send to back end
         axios({
             method: "POST",
@@ -70,7 +69,7 @@ export default function ButtonsTab(props) {
         })
         .then(data=> {
             let result = data.data.result
-            if (result.Score == 0) {
+            if (result.Score === 0) {
                 props.setAlert("Incorrect inputs, please try again!")
                 return
             }
@@ -84,7 +83,8 @@ export default function ButtonsTab(props) {
             <Grid container direction="column" justifyContent="center" alignItems="flex-start">
                 <ButtonTab variant="contained" disabled endIcon={<CameraAltIcon />} />
                 <ButtonTab variant="contained" endIcon={<DeleteIcon />} onClick={() => deleteTile(props.tiles, props.setTile)} />
-                <ButtonTab variant="contained" endIcon={<RemoveIcon />} onClick={() => clearTiles(props.setTile, props.setResult)} />
+                <ButtonTab variant="contained" endIcon={<RemoveIcon />} onClick={() => clearTiles(props.setTile, props.setResult, props.setOpenStatus1, props.setOpenStatus2, 
+                    props.setOpenStatus3, props.setOpenStatus4, props.setOpenStatus5, props.setKongStatus1, props.setKongStatus2, props.setKongStatus3, props.setKongStatus4)} />
                 <ButtonTab variant="contained" endIcon={<CalculateIcon />} onClick={() => calculateTiles()} />
             </Grid>
         </>
