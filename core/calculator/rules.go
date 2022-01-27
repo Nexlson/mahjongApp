@@ -190,7 +190,10 @@ func 四暗刻(hands Hands, r Output) Output {
 func 一色双龙会(hands Hands, r Output) Output {
 	pairList := extractTileGroup(hands, "Pair")
 	chiList := extractTileGroup(hands, "Chi")
-	check1 :=  sameSlice(deValueGroup(pairList[0].Tiles), []int{5,5}) 
+	check1 := false
+	if len(pairList) != 0 {
+		check1 =  sameSlice(deValueGroup(pairList[0].Tiles), []int{5,5}) 
+	}
 	count123 := 0 
 	count789:= 0 
 	for _, g := range chiList {
@@ -456,12 +459,15 @@ func 清龙(hands Hands, r Output) Output {
 func 三色双龙会(hands Hands, r Output) Output {
 	pairList := extractTileGroup(hands, "Pair")
 	chiList := extractTileGroup(hands, "Chi")
-	check1 :=  sameSlice(deValueGroup(pairList[0].Tiles), []int{5,5}) 
-	pairPattern := pairList[0].Pattern
+	check1 := false
+	check3 := false
 	check123789List := check123789(chiList) 
+	if len(pairList) != 0 {
+		check1 =  sameSlice(deValueGroup(pairList[0].Tiles), []int{5,5}) 
+		pairPattern := pairList[0].Pattern
+		check3 = len(append(check123789List, pairPattern)) == 3
+	}
 	check2 := len(check123789List) == 2
-	check3 := len(append(check123789List, pairPattern)) == 3
-
 	if check1 && check2 && check3 && hands.Won{
 		r.Names = append(r.Names,"三色双龙会")
 		r.Score += 16
