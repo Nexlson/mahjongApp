@@ -19,7 +19,7 @@ const Image = styled.img `
 
     :active {
         animation-name: selectTile;
-        animation-duration: 1s;
+        animation-duration: 0.1s;
     }
 
     @keyframes selectTile {
