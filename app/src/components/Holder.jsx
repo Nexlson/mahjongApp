@@ -7,8 +7,8 @@ const Image = styled.img`
     border: 5px hidden;
 
     @media (max-width: 500px) {
-        width: 40px;
-        height: 60px;
+        width: 30px;
+        height: 50px;
         margin: 2px 2px 2px 2px;
     }
 

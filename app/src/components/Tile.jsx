@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const TileStyle = styled.div`
-    margin: 5px 5px;
+    margin: 3px 3px;
     @media (max-width: 500px) {
         width: 30px;
         height: 30px;
@@ -13,8 +13,8 @@ const Image = styled.img `
     height: 80px;
 
     @media (max-width: 500px) {
-        width: 40px;
-        height: 60px;
+        width: 30px;
+        height: 50px;
     }
 
     :active {
