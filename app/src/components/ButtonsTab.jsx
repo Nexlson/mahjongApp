@@ -70,6 +70,10 @@ export default function ButtonsTab(props) {
         })
         .then(data=> {
             let result = data.data.result
+            if (result.Score == 0) {
+                props.setAlert("Incorrect inputs, please try again!")
+                return
+            }
             props.setResult(result)
         })
         .catch(err=> console.log(err))
