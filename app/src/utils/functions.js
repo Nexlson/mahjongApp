@@ -7,7 +7,7 @@ export const deleteTile = (tiles, setTile) => {
     setTile(tiles.slice(0, -1))
 }
 
-export const clearTiles = (setTile, setResult, setOpen1, setOpen2, setOpen3, setOpen4, setOpen5, setKong1, setKong2, setKong3, setKong4) => {
+export const clearTiles = (setTile, setResult, setOpen1, setOpen2, setOpen3, setOpen4, setOpen5, setKong1, setKong2, setKong3, setKong4, setWinningTile) => {
     setTile([])
     setResult([])
     setOpen1(false)
@@ -19,6 +19,7 @@ export const clearTiles = (setTile, setResult, setOpen1, setOpen2, setOpen3, set
     setKong2(false)
     setKong3(false)
     setKong4(false)
+    setWinningTile(0)
 }
 
 export const checkPong = arr => arr.every( v => v === arr[0] )

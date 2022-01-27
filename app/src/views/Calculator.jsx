@@ -63,7 +63,7 @@ export default function Calculator(){
                         openStatus3={openStatus3} setOpenStatus3={setOpenStatus3} openStatus4={openStatus4} setOpenStatus4={setOpenStatus4}
                         openStatus5={openStatus5} setOpenStatus5={setOpenStatus5} kongStatus1={kongStatus1} setKongStatus1={setKongStatus1}
                         kongStatus2={kongStatus2} setKongStatus2={setKongStatus2} kongStatus3={kongStatus3} setKongStatus3={setKongStatus3}
-                        kongStatus4={kongStatus4} setKongStatus4={setKongStatus4}
+                        kongStatus4={kongStatus4} setKongStatus4={setKongStatus4} 
                     />
                 </Grid>
 
@@ -77,7 +77,7 @@ export default function Calculator(){
                         openStatus3={openStatus3} setOpenStatus3={setOpenStatus3} openStatus4={openStatus4} setOpenStatus4={setOpenStatus4}
                         openStatus5={openStatus5} setOpenStatus5={setOpenStatus5} kongStatus1={kongStatus1} setKongStatus1={setKongStatus1}
                         kongStatus2={kongStatus2} setKongStatus2={setKongStatus2} kongStatus3={kongStatus3} setKongStatus3={setKongStatus3}
-                        kongStatus4={kongStatus4} setKongStatus4={setKongStatus4}
+                        kongStatus4={kongStatus4} setKongStatus4={setKongStatus4} setWinningTile={setWinningTile}
                     />
                 </Grid>
             </UpperHolders>

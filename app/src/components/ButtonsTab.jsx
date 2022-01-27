@@ -84,7 +84,7 @@ export default function ButtonsTab(props) {
                 <ButtonTab variant="contained" disabled endIcon={<CameraAltIcon />} />
                 <ButtonTab variant="contained" endIcon={<DeleteIcon />} onClick={() => deleteTile(props.tiles, props.setTile)} />
                 <ButtonTab variant="contained" endIcon={<RemoveIcon />} onClick={() => clearTiles(props.setTile, props.setResult, props.setOpenStatus1, props.setOpenStatus2, 
-                    props.setOpenStatus3, props.setOpenStatus4, props.setOpenStatus5, props.setKongStatus1, props.setKongStatus2, props.setKongStatus3, props.setKongStatus4)} />
+                    props.setOpenStatus3, props.setOpenStatus4, props.setOpenStatus5, props.setKongStatus1, props.setKongStatus2, props.setKongStatus3, props.setKongStatus4, props.setWinningTile)} />
                 <ButtonTab variant="contained" endIcon={<CalculateIcon />} onClick={() => calculateTiles()} />
             </Grid>
         </>
