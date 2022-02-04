@@ -66,7 +66,7 @@ func 九莲宝灯(hands Hands, r Output) Output {
 	removedDup := removeDuplicateInt(hands.Ungrouped)
 	removePongs := removeIntFromSlice(removedDup, handPongs)
 
-	if samePattern && contained && len(removePongs) == 7 {
+	if samePattern && contained && len(removePongs) == 7 && len(removedDup) == 9{
 		// only have 1112345678999
 		r.Names = append(r.Names,"九莲宝灯")
 		r.Score += 88
@@ -805,12 +805,16 @@ func 双箭刻(hands Hands, r Output) Output {
 
 func 全带幺(hands Hands, r Output) Output {
 	validTiles := []int {1, 9, 10, 18, 19, 27, 28, 29, 30, 31, 32, 33, 34}
+	count := 0 
 	for _, g := range hands.Grouped {
-		if checkAnyTileisInSlice(validTiles, g.Tiles) && hands.Won{
-			r.Names = append(r.Names,"全带幺")
-			r.Score += 4
-			return r
+		if checkAnyTileisInSlice(validTiles, g.Tiles) {
+			count += 1
 		}
+	}
+	if count == 5 && hands.Won{
+		r.Names = append(r.Names,"全带幺")
+		r.Score += 4
+		return r
 	}
 	return r
 }
