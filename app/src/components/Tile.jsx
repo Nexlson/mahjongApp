@@ -25,7 +25,7 @@ const Image = styled.img `
     @keyframes selectTile {
         from {transform:translateY(0);}
         to {transform:translateY(-10px);}
-      }
+    }
 `
 
 export default function Tile(props) {
